@@ -3,14 +3,14 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from .models import Product
 from .forms import ProductForm
-from users.views import profile_view
 import logging
 
-
+User = get_user_model()
 logger = logging.getLogger(__name__)
 
 def my_function():

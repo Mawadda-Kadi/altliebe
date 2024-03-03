@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView, View
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserRegisterForm
+from .models import Profile
+from .forms import UserRegisterForm, ProfileForm
+
 
 # Create your views here.
 
@@ -44,3 +48,21 @@ def profile_view(request, username):
     # Checks if the requested profile belongs to the logged-in user
     own_profile = request.user == user
     return render(request, 'users/profile.html', {'profile': user.profile, 'own_profile': own_profile})
+
+
+class ProfileUpdate(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileForm
+    template_name = 'profiles/profile_edit.html'
+    success_url = reverse_lazy('user-profile')
+
+    def get_object(self):
+        return self.request.user.profile
+
+class DeleteAccount(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        # Consider adding additional checks (e.g., re-authentication)
+        user.delete()
+        messages.success(request, "Your account has been deleted.")
+        return redirect('product-list')
