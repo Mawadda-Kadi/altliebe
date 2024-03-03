@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+    {% for product in products %}
+    <article>
+        <h2><a href="{% url 'product-detail' product.slug %}">
+                {{ product.title }}</a></h2>
+        {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.title }}"
+            style="width:100px; height:auto;">
+        {% endif %}
+        <p>{{ product.description }}</p>
+        <p>Price: {{ product.price }} €</p>
+        <p>Status: {{ product.get_status_display }}</p>
+        <p>Availability: {{ product.get_availability_display }}</p>
+        {% if product.location %}
+        <p>Location: {{ product.location }}</p>
+        {% endif %}
+        <p>Posted on: {{ product.created_at|date:"Y-m-d H:i" }}</p>
+    </article>
+    {% empty %}
+    <p>No products found.</p>
+    {% endfor %}
+</section>
+{% endblock %}
