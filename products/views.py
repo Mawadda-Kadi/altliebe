@@ -20,13 +20,13 @@ def my_function():
 
 class ProductList(generic.ListView):
     model = Product
-    template_name = "product/product_list.html"
+    template_name = "products/product_list.html"
     context_object_name = 'products'
     paginate_by = 4
 
     def product_list(request):
         products = Product.objects.filter(Q(availability=0) | Q(availability=1))
-        return render(request, 'product/product_list.html', {'products': products})
+        return render(request, 'products/product_list.html', {'products': products})
 
     def get_queryset(self):
         """Override to customize the query."""
@@ -35,7 +35,7 @@ class ProductList(generic.ListView):
 
 class ProductDetail(DetailView):
     model = Product
-    template_name = 'product/product_detail.html'
+    template_name = 'products/product_detail.html'
 
     def get_queryset(self):
         """Ensure only available products can be viewed."""
@@ -44,7 +44,7 @@ class ProductDetail(DetailView):
 class ProductCreate(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
-    template_name = 'product/product_create.html'
+    template_name = 'products/product_form.html'
     # Redirect to product list view after creation
     success_url = reverse_lazy('product-list')
 
@@ -62,12 +62,20 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 class ProductUpdate(UpdateView):
     model = Product
     fields = ['title', 'description', 'price', 'status', 'availability']
-    template_name = 'product/product_form.html'
+    template_name = 'products/product_form.html'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
     # Redirect to product list view after updte
     success_url = reverse_lazy('product-list')
 
+    def form_valid(self, form):
+        form.instance.seller = self.request.user
+        user_profile = self.request.user.profile
+        form.instance.location = user_profile.location
+        return super().form_valid(form)
+
 class ProductDelete(DeleteView):
     model = Product
-    template_name = 'product/product_confirm_delete.html'
+    template_name = 'products/product_confirm_delete.html'
     # Redirect to product list view after deletion
     success_url = reverse_lazy('product-list')

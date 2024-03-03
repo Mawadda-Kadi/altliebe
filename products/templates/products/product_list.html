@@ -14,8 +14,8 @@
         <p>Price: {{ product.price }} €</p>
         <p>Status: {{ product.get_status_display }}</p>
         <p>Availability: {{ product.get_availability_display }}</p>
-        {% if product.location %}
-        <p>Location: {{ product.location }}</p>
+        {% if user.location %}
+        <p>Location: {{ user.location }}</p>
         {% endif %}
         <p>Posted on: {{ product.created_at|date:"Y-m-d H:i" }}</p>
     </article>
