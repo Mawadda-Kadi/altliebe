@@ -23,8 +23,7 @@
     <a href="{% url 'product-update' slug=product.slug %}"
         class="btn btn-primary">Edit</a>
     <a href="{% url 'product-delete' slug=product.slug %}"
-        class="btn btn-danger"
-        onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+        class="btn btn-danger">Delete</a>
     {% endif %}
 </article>
 {% endblock %}
