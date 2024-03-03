@@ -59,10 +59,30 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
     def get_object(self):
         return self.request.user.profile
 
+@login_required
+def profile_edit_view(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('user-profile', username=request.user.username)
+    else:
+        form = ProfileForm(instance=request.user.profile)
+    return render(request, 'users/profile.html', {'form': form})
+
 class DeleteAccount(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         user = request.user
         # Consider adding additional checks (e.g., re-authentication)
         user.delete()
         messages.success(request, "Your account has been deleted.")
+        return redirect('product-list')
+
+
+@login_required
+def delete_account_view(request):
+    if request.method == 'POST':
+        request.user.delete()
+        logout(request)
+        messages.success(request, "Your account has been successfully deleted.")
         return redirect('product-list')

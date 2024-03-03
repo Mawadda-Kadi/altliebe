@@ -1,11 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
 <div class="container">
     <h2>My Profile</h2>
     <p>Welcome, {{ user.username }}!</p>
-    {% if user.profile.image %}
-    <img src="{{ user.profile.image.url }}" alt="Profile image">
-    {% endif %}
+    <img src="{% static 'users/images/default-profile-image.webp' %}" alt="Profile image">
     <p>Email: {{ user.email }}</p>
     <p>About Me: {{ user.profile.about_me }}</p>
     <p>Address: {{ user.profile.address }}, {{ user.profile.city }}</p>
