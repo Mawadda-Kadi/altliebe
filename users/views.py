@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
@@ -15,8 +16,12 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}! You are now able to log in')
-            return redirect('login')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(request, username=username, password=password)  # Authenticate the user
+            if user is not None:
+                login(request, user)  # Log the user in
+                messages.success(request, f'Account created for {username}! You are now able to log in')
+                return redirect('user-profile', username=username)
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
