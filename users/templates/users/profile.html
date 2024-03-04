@@ -12,7 +12,9 @@
 
     <h3>My Products</h3>
     {% for product in user.products.all %}
-    <div>{{ product.title }} - {{ product.description }}</div>
+    <div>
+        <a href="{% url 'product-detail' slug=product.slug %}">{{ product.title }}</a> - {{ product.description }}
+    </div>
     {% empty %}
     <p>You have not added any products yet.</p>
     {% endfor %}
