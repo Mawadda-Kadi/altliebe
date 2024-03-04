@@ -12,7 +12,7 @@ class Profile(models.Model):
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     about_me = models.TextField(blank=True)
     address = models.CharField(max_length=100, blank=True)
-    city = models.CharField(max_length=50, blank=True)
+    city = models.CharField(max_length=50)
 
     def __str__(self):
         return f'{self.user.username} Profile'
@@ -22,3 +22,17 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
     instance.profile.save()
+
+
+class State(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class City(models.Model):
+    state = models.ForeignKey(State, related_name='cities', on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name

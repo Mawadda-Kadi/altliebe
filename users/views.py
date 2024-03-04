@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView, View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,7 +8,7 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Profile
+from .models import Profile, State, City
 from .forms import UserRegisterForm, ProfileForm
 from products.models import Product
 
@@ -17,6 +18,25 @@ def register(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
+
+            # Process state and city
+            state_id = request.POST.get('state')
+            city_name = request.POST.get('city')
+            try:
+                state = State.objects.get(id=state_id)
+                # Attempt to get the city based on the name and state
+                city, created = City.objects.get_or_create(name=city_name, state=state)
+                # Create or update the user's profile with the city
+                Profile.objects.update_or_create(user=user, defaults={'city': city})
+
+            except State.DoesNotExist:
+                messages.error(request, 'Invalid state selected.')
+                return render(request, 'users/register.html', {'form': form})
+            except City.DoesNotExist:
+                messages.error(request, 'Invalid city selected.')
+                return render(request, 'users/register.html', {'form': form})
+
+            # Authenticate and login the user
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(request, username=username, password=password)
@@ -28,6 +48,13 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
 
+
+def get_cities(request, state_id):
+    cities = City.objects.filter(state__id=state_id).order_by('name')
+    cities_list = list(cities.values('id', 'name'))
+    return JsonResponse({'cities': cities_list})
+
+    
 # Custom Login View
 class CustomLoginView(LoginView):
     template_name = 'users/login.html'
