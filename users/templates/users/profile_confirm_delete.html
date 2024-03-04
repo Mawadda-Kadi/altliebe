@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Are you sure you want to delete your Account?</h2>
+
+    <!-- Warning Message Start -->
+    <div class="alert alert-warning" role="alert">
+        <strong>Warning: Account Deletion</strong><br>
+        Before you proceed with deleting your account, please be aware of the
+        following irreversible actions:
+        <ul>
+            <li><strong>Profile Deletion:</strong> Your profile, including all
+                personal information, will be permanently removed.</li>
+            <li><strong>Loss of Products:</strong> Any products you have added
+                to the platform will be deleted.</li>
+            <li><strong>Wishlist Removal:</strong> Your wishlist will be
+                erased.</li>
+            <li><strong>Activity Restrictions:</strong> You will no longer be
+                able to:
+                <ul>
+                    <li>Send direct messages to other users.</li>
+                    <li>Like or interact with products.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, delete it</button>
+        <a href="{% url 'product-list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

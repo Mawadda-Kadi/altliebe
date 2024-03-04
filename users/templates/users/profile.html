@@ -2,6 +2,15 @@
 {% load static %}
 
 {% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
 {% if own_profile %}
 <div class="container">
     <h2>My Profile</h2>
@@ -21,8 +30,7 @@
     {% endfor %}
 
     <a href="{% url 'edit-profile' %}" class="btn btn-primary">Edit Profile</a>
-    <a href="{% url 'delete-account' %}" class="btn btn-danger"
-        onclick="return confirm('Are you sure?');">Delete Account</a>
+    <a href="{% url 'delete-account' %}" class="btn btn-danger">Delete Account</a>
     <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
 </div>
 {% else %}

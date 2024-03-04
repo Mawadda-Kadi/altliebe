@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Profile
 from .forms import UserRegisterForm, ProfileForm
+from products.models import Product
 
 # User Registration View
 def register(request):
@@ -49,11 +50,11 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'users/profile_edit.html'
 
     def get_success_url(self):
-        # Redirect to the user's profile page after successful profile update
+        """ Redirect to the user's profile page after successful profile update """
         return reverse_lazy('user-profile', kwargs={'username': self.request.user.username})
 
     def get_object(self, queryset=None):
-        # Ensure that user can only edit their own profile
+        """ Ensure that user can only edit their own profile """
         return self.request.user.profile
 
     def form_valid(self, form):
@@ -61,11 +62,21 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 # Delete Account View
-@login_required
-def delete_account_view(request):
-    if request.method == 'POST':
-        user = request.user
-        user.delete()
-        messages.success(request, "Your account has been successfully deleted.")
-        return redirect('product-list')
+class ProfileDelete(LoginRequiredMixin, DeleteView):
+    model = Profile
+    template_name = 'users/profile_confirm_delete.html'
+    # Redirect to product list view after deletion
+    success_url = reverse_lazy('product-list')
 
+    def get_object(self, queryset=None):
+        """ Ensure the user can only delete their own profile """
+        return self.request.user
+
+    def post(self, request, *args, **kwargs):
+        """Handle POST request to delete User and related Profile."""
+        # This deletes the User
+        response = super().post(request, *args, **kwargs)
+        # Log the user out
+        logout(request)
+        messages.success(request, "Your account has been successfully deleted.")
+        return response
