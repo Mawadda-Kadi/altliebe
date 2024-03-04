@@ -56,7 +56,8 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.seller = self.request.user
         user_profile = self.request.user.profile
-        form.instance.location = user_profile.location
+        form.instance.city = user_profile.city
+        form.instance.address = user_profile.address
         return super(ProductCreate, self).form_valid(form)
 
 class ProductUpdate(UpdateView):
@@ -71,7 +72,8 @@ class ProductUpdate(UpdateView):
     def form_valid(self, form):
         form.instance.seller = self.request.user
         user_profile = self.request.user.profile
-        form.instance.location = user_profile.location
+        form.instance.city = user_profile.city
+        form.instance.address = user_profile.address
         return super().form_valid(form)
 
 class ProductDelete(DeleteView):

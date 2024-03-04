@@ -12,6 +12,7 @@
     <p>Seller: <a
             href="{% url 'user-profile' username=product.seller.username %}">{{
             product.seller.username }}</a></p>
+    <p>Location: {{ user.address }}, {{ user.city }}</p>
     {% if product.availability == 0 %}
     <p>This product is available.</p>
     {% elif product.availability == 1 %}
