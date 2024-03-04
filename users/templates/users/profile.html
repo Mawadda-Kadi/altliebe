@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+{% if own_profile %}
 <div class="container">
     <h2>My Profile</h2>
     <p>Welcome, {{ user.username }}!</p>
@@ -24,4 +25,23 @@
         onclick="return confirm('Are you sure?');">Delete Account</a>
     <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
 </div>
+{% else %}
+<div class="container">
+    <h2>Viewing {{ profile.user.username }}'s profile.</h2>
+    <img src="{% static 'users/images/default-profile-image.webp' %}"
+        alt="Profile image">
+    <p>Email: {{ profile.user.email }}</p>
+    <p>About Me: {{ profile.user.profile.about_me }}</p>
+    <p>Address: {{ profile.user.profile.address }}, {{ profile.user.profile.city }}</p>
+
+    <h3>{{ profile.user.username }}'s Products</h3>
+    {% for product in profile.user.products.all %}
+    <div>
+        <a href="{% url 'product-detail' slug=product.slug %}">{{ product.title }}</a> - {{ product.description }}
+    </div>
+    {% empty %}
+    <p>They have not added any products yet.</p>
+    {% endfor %}
+</div>
+{% endif %}
 {% endblock %}
