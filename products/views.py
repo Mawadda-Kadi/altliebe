@@ -42,6 +42,12 @@ class ProductList(generic.ListView):
                 Q(seller__username__icontains=query) |
                 Q(city__icontains=query)
             )
+        if category and category != '':
+            queryset = queryset.filter(category=category)
+        if status and status != '':
+            queryset = queryset.filter(status=status)
+        if state:
+            queryset = queryset.filter(state=state)
 
         # Sorting logic
         sort = self.request.GET.get('sort', 'date_desc')

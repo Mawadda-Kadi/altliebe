@@ -5,17 +5,17 @@ from users.models import State
 # Choices Fields
 CATEGORY = (
     ('', "Any"),
-    ('0', "Electronics"),
-    ('1', "Fashion and Apparel"),
-    ('2', "Home and Garden"),
-    ('3', "Sports and Outdoors"),
-    ('4', "Toys and Games"),
-    ('5', "Books and Media"),
-    ('6', "Pet Supplies"),
-    ('7', "Other"),
+    (0, "Electronics"),
+    (1, "Fashion and Apparel"),
+    (2, "Home and Garden"),
+    (3, "Sports and Outdoors"),
+    (4, "Toys and Games"),
+    (5, "Books and Media"),
+    (6, "Pet Supplies"),
+    (7, "Other")
 )
 STATUS = (
-    ('', "Any"), ('0', "used"), ('1', "new"), ('2', "handmade")
+    ('', "Any"), (0, "used"), (1, "new"), (2, "handmade")
 )
 
 class ProductSearchForm(forms.Form):
