@@ -25,13 +25,25 @@ class ProductList(generic.ListView):
     context_object_name = 'products'
     paginate_by = 4
 
-    def product_list(request):
-        products = Product.objects.filter(Q(availability=0) | Q(availability=1))
-        return render(request, 'products/product_list.html', {'products': products})
-
     def get_queryset(self):
-        """Override to customize the query."""
-        return Product.objects.all().order_by('-created_at')
+        """Override to customize the query based on sorting options."""
+        # Default sort is newest first
+        sort = self.request.GET.get('sort', 'date_desc')
+
+        # Apply filters before sorting
+        queryset = Product.objects.filter(Q(availability=0) | Q(availability=1))
+
+        # Apply sorting
+        if sort == 'price_asc':
+            queryset = queryset.order_by('price')
+        elif sort == 'price_desc':
+            queryset = queryset.order_by('-price')
+        elif sort == 'date_asc':
+            queryset = queryset.order_by('created_at')
+        elif sort == 'date_desc':
+            queryset = queryset.order_by('-created_at')
+
+        return queryset
 
 
 class ProductDetail(DetailView):
@@ -63,7 +75,7 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 
 class ProductUpdate(UpdateView):
     model = Product
-    fields = ['title', 'description', 'price', 'status', 'availability']
+    fields = ['title', 'category', 'description', 'price', 'status', 'availability']
     template_name = 'products/product_form.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'

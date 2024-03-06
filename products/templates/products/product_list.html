@@ -10,6 +10,22 @@
 {% endfor %}
 {% endif %}
 
+<!-- Sorting Options -->
+<div class="sorting-options">
+    <a href="?sort=price_asc"
+        class="{% if request.GET.sort == 'price_asc' %}active{% endif %}">Price
+        Low to High</a> |
+    <a href="?sort=price_desc"
+        class="{% if request.GET.sort == 'price_desc' %}active{% endif %}">Price
+        High to Low</a> |
+    <a href="?sort=date_asc"
+        class="{% if request.GET.sort == 'date_asc' %}active{% endif %}">Oldest
+        First</a> |
+    <a href="?sort=date_desc"
+        class="{% if request.GET.sort == 'date_desc' %}active{% endif %}">Newest
+        First</a>
+</div>
+
 <section>
     {% for product in products %}
     <article>
@@ -19,6 +35,7 @@
         <img src="{{ product.image.url }}" alt="{{ product.title }}"
             style="width:100px; height:auto;">
         {% endif %}
+        <p>Category: {{ product.get_category_display}}</p>
         <p>{{ product.description }}</p>
         <p>Price: {{ product.price }} €</p>
         <p>Seller: <a href="{% url 'user-profile' username=product.seller.username %}">{{ product.seller.username }}</a></p>
@@ -43,8 +60,12 @@
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        <!-- Ensure Sorting Persists with Pagination -->
+        <a
+            href="?page=1{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">&laquo;
+            first</a>
+        <a
+            href="?page={{ page_obj.previous_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">previous</a>
         {% endif %}
 
         <span class="current">
@@ -52,8 +73,11 @@
         </span>
 
         {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        <a
+            href="?page={{ page_obj.next_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">next</a>
+        <a
+            href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">last
+            &raquo;</a>
         {% endif %}
     </span>
 </div>

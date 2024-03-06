@@ -4,18 +4,21 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 import logging
 
-AVAILABILITY = ((0, "available"), (1, "reserved"), (2, "sold"))
-STATUS = ((0, "used"), (1, "new"), (2, "handmade"))
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
+# Choices Fields
+CATEGORY = ((0, "Electronics"), (1, "Fashion and Apparel"), (2, "Home and Garden"), (3, "Sports and Outdoors"), (4, "Toys and Games"), (5, "Books and Media"), (6, "Pet Supplies"), (7, "Other"))
+AVAILABILITY = ((0, "available"), (1, "reserved"), (2, "sold"))
+STATUS = ((0, "used"), (1, "new"), (2, "handmade"))
 
 # Create your models here.
 class Product(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     #image = models.ImageField(upload_to='product_images/')
+    category = models.IntegerField(choices=CATEGORY, default=0)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="products")
