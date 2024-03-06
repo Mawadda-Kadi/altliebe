@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from .models import Product
-from .forms import ProductForm
+from .forms import ProductForm, ProductSearchForm
 from users.models import Profile
 import logging
 
@@ -26,14 +26,25 @@ class ProductList(generic.ListView):
     paginate_by = 4
 
     def get_queryset(self):
-        """Override to customize the query based on sorting options."""
-        # Default sort is newest first
-        sort = self.request.GET.get('sort', 'date_desc')
-
-        # Apply filters before sorting
+        # Start with all available or reserved products
         queryset = Product.objects.filter(Q(availability=0) | Q(availability=1))
+        query = self.request.GET.get('query', '')
+        category = self.request.GET.get('category', '')
+        seller = self.request.GET.get('seller', '')
+        state = self.request.GET.get('state', '')
+        status = self.request.GET.get('status', '')
 
-        # Apply sorting
+        # Apply search filters
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query) |
+                Q(description__icontains=query) |
+                Q(seller__username__icontains=query) |
+                Q(city__icontains=query)
+            )
+
+        # Sorting logic
+        sort = self.request.GET.get('sort', 'date_desc')
         if sort == 'price_asc':
             queryset = queryset.order_by('price')
         elif sort == 'price_desc':
@@ -45,7 +56,11 @@ class ProductList(generic.ListView):
 
         return queryset
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Pass the search form to the template
+        context['form'] = ProductSearchForm(self.request.GET or None)
+        return context
 class ProductDetail(DetailView):
     model = Product
     template_name = 'products/product_detail.html'

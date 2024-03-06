@@ -9,9 +9,24 @@ import logging
 logger = logging.getLogger(__name__)
 
 # Choices Fields
-CATEGORY = ((0, "Electronics"), (1, "Fashion and Apparel"), (2, "Home and Garden"), (3, "Sports and Outdoors"), (4, "Toys and Games"), (5, "Books and Media"), (6, "Pet Supplies"), (7, "Other"))
-AVAILABILITY = ((0, "available"), (1, "reserved"), (2, "sold"))
-STATUS = ((0, "used"), (1, "new"), (2, "handmade"))
+CATEGORY = (
+    (0, "Electronics"),
+    (1, "Fashion and Apparel"),
+    (2, "Home and Garden"),
+    (3, "Sports and Outdoors"),
+    (4, "Toys and Games"),
+    (5, "Books and Media"),
+    (6, "Pet Supplies"),
+    (7, "Other"),
+)
+
+AVAILABILITY = (
+    (0, "available"), (1, "reserved"), (2, "sold")
+)
+
+STATUS = (
+    (0, "used"), (1, "new"), (2, "handmade")
+)
 
 # Create your models here.
 class Product(models.Model):
