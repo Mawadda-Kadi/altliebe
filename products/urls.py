@@ -6,7 +6,7 @@ from users.views import profile_view
 
 
 urlpatterns = [
-    path('', ProductList.as_view(), name='product-list'),
+    path('products/', ProductList.as_view(), name='product-list'),
     path('products/add/', ProductCreate.as_view(), name='product-create'),
     path('<slug:slug>/', ProductDetail.as_view(), name='product-detail'),
     path('products/<slug:slug>/edit/', ProductUpdate.as_view(), name='product-update'),

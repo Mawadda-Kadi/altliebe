@@ -2,11 +2,6 @@
 
 {% block content %}
 
-<form method="get">
-    {{ form.as_p }}
-    <button type="submit">Search</button>
-</form>
-
 {% if messages %}
 {% for message in messages %}
 <div class="alert alert-{{ message.tags }}">
