@@ -15,37 +15,48 @@
 <div class="container">
     <h2>My Profile</h2>
     <p>Welcome, {{ user.username }}!</p>
-    <img src="{% static 'users/images/default-profile-image.webp' %}" alt="Profile image">
+    <img src="{% static 'users/images/default-profile-image.webp' %}"
+        alt="Profile image">
     <p>Email: {{ user.email }}</p>
     <p>About Me: {{ user.profile.about_me }}</p>
-    <p>Address: {{ user.profile.address }}, {{ user.profile.city }}</p>
+    {% if user.profile.city %}
+    <p>Location: {{ user.profile.city.name }}, {{ user.profile.city.state.name }}</p>
+    {% else %}
+    <p>Location: Not set</p>
+    {% endif %}
 
     <h3>My Products</h3>
     {% for product in user.products.all %}
     <div>
-        <a href="{% url 'product-detail' slug=product.slug %}">{{ product.title }}</a> - {{ product.description }}
+        <a href="{% url 'product-detail' slug=product.slug %}">{{ product.title
+            }}</a> - {{ product.description }}
     </div>
     {% empty %}
     <p>You have not added any products yet.</p>
     {% endfor %}
 
     <a href="{% url 'edit-profile' %}" class="btn btn-primary">Edit Profile</a>
-    <a href="{% url 'delete-account' %}" class="btn btn-danger">Delete Account</a>
+    <a href="{% url 'delete-account' %}" class="btn btn-danger">Delete
+        Account</a>
     <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
 </div>
 {% else %}
 <div class="container">
-    <h2>Viewing {{ profile.user.username }}'s profile.</h2>
+    <h2>Viewing {{ product.seller.profile.user.username }}'s profile.</h2>
     <img src="{% static 'users/images/default-profile-image.webp' %}"
         alt="Profile image">
-    <p>Email: {{ profile.user.email }}</p>
-    <p>About Me: {{ profile.user.profile.about_me }}</p>
-    <p>Address: {{ profile.user.profile.address }}, {{ profile.user.profile.city }}</p>
-
-    <h3>{{ profile.user.username }}'s Products</h3>
+    <p>Email: {{ product.seller.profile.user.email }}</p>
+    <p>About Me: {{ user.profile.about_me }}</p>
+    {% if user.profile.city %}
+    <p>Location: {{ product.seller.profile.city.name }}, {{ product.seller.profile.city.state.name }}</p>
+    {% else %}
+    <p>Location: Not set</p>
+    {% endif %}
+    <h3>{{ product.seller.profile.user.username }}'s Products</h3>
     {% for product in profile.user.products.all %}
     <div>
-        <a href="{% url 'product-detail' slug=product.slug %}">{{ product.title }}</a> - {{ product.description }}
+        <a href="{% url 'product-detail' slug=product.slug %}">{{ product.title
+            }}</a> - {{ product.description }}
     </div>
     {% empty %}
     <p>They have not added any products yet.</p>

@@ -11,32 +11,21 @@ from django.contrib import messages
 from .models import Profile, State, City
 from .forms import UserRegisterForm, ProfileForm
 from products.models import Product
+import logging
+
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
 
 # User Registration View
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()  # This returns the User object after saving
 
-            # Process state and city
-            state_id = request.POST.get('state')
-            city_name = request.POST.get('city')
-            try:
-                state = State.objects.get(id=state_id)
-                # Attempt to get the city based on the name and state
-                city, created = City.objects.get_or_create(name=city_name, state=state)
-                # Create or update the user's profile with the city
-                Profile.objects.update_or_create(user=user, defaults={'city': city})
-
-            except State.DoesNotExist:
-                messages.error(request, 'Invalid state selected.')
-                return render(request, 'users/register.html', {'form': form})
-            except City.DoesNotExist:
-                messages.error(request, 'Invalid city selected.')
-                return render(request, 'users/register.html', {'form': form})
-
-            # Authenticate and login the user
+            # Authenticate and login the user automatically after registration
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password1')
             user = authenticate(request, username=username, password=password)
@@ -44,17 +33,15 @@ def register(request):
                 login(request, user)
                 messages.success(request, f'Account created for {username}! You are now able to log in')
                 return redirect('user-profile', username=username)
+        else:
+            # If the form is invalid, render the form again with error messages
+            messages.error(request, 'Please correct the error below.')
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
 
 
-def get_cities(request, state_id):
-    cities = City.objects.filter(state__id=state_id).order_by('name')
-    cities_list = list(cities.values('id', 'name'))
-    return JsonResponse({'cities': cities_list})
 
-    
 # Custom Login View
 class CustomLoginView(LoginView):
     template_name = 'users/login.html'

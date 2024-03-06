@@ -22,7 +22,7 @@
         <p>{{ product.description }}</p>
         <p>Price: {{ product.price }} €</p>
         <p>Seller: <a href="{% url 'user-profile' username=product.seller.username %}">{{ product.seller.username }}</a></p>
-        <p>Location: {{ product.seller.profile.address }}, {{ product.seller.profile.city }}</p>
+        <p>Location: {{ product.seller.profile.city.name }}, {{ product.seller.profile.city.state.name }}</p>
         <p>Status: {{ product.get_status_display }}</p>
         <p>Availability: {{ product.get_availability_display }}</p>
         {% if user.location %}

@@ -10,7 +10,6 @@
     <p>{{ product.description }}</p>
     <p>Price: {{ product.price }} €</p>
     <p>Seller: <a href="{% url 'user-profile' username=product.seller.username %}">{{ product.seller.username }}</a></p>
-    <p>Location: {{ product.seller.profile.address }}, {{ product.seller.profile.city }}</p>
     <p>Status: {{ product.get_status_display }}</p>
     {% if product.availability == 0 %}
     <p>This product is available.</p>

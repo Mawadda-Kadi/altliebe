@@ -1,4 +1,5 @@
 from django.urls import path
+from .models import Profile, State, City
 from .views import register, CustomLoginView, profile_view, ProfileUpdate, ProfileDelete
 from django.contrib.auth import views as auth_views
 from . import views
@@ -10,6 +11,5 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('profile/<str:username>/', profile_view, name='user-profile'),
     path('delete-account/', ProfileDelete.as_view(), name='delete-account'),
-    path('get-cities/<int:state_id>/', views.get_cities, name='get-cities'),
 ]
 

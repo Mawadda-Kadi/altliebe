@@ -1,23 +1,48 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, State
+from .models import Profile, State, City
 
-class UserRegisterForm(UserCreationForm):
+class UserRegisterForm(forms.ModelForm):
     email = forms.EmailField()
-    state = forms.ModelChoiceField(queryset=State.objects.all())
-    # Initially, this will be empty
-    city = forms.CharField()
+    password1 = forms.CharField(widget=forms.PasswordInput())
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput())
+    state = forms.ModelChoiceField(queryset=State.objects.all(), empty_label="Select State")
+    city = forms.ModelChoiceField(queryset=City.objects.all().order_by('name'), empty_label="Select City")
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email', 'password1', 'password2', 'state', 'city']
+
+    def clean_password2(self):
+        """ Custom validation to check that the two password entries match """
+        cd = self.cleaned_data
+        if cd['password1'] != cd['password2']:
+            raise forms.ValidationError('Passwords don\'t match.')
+        return cd['password2']
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password1'])
+        if commit:
+            user.save()
+
+            # Assuming `city` in `cleaned_data` is the city ID, not the name
+            city_id = self.cleaned_data.get('city')
+            city = City.objects.get(id=city_id)
+
+            profile, profile_created = Profile.objects.update_or_create(
+                user=user,
+                defaults={'city': city},
+            )
+
+            return user
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         # Editable fields
-        fields = ['about_me', 'address', 'city']
+        fields = ['about_me', 'state', 'city' ]
         widgets = {
             'about_me': forms.Textarea(attrs={'rows': 4}),
         }

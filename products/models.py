@@ -22,7 +22,7 @@ class Product(models.Model):
     seller_contact = models.CharField(max_length=200)
     availability = models.IntegerField(choices=AVAILABILITY, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    location = models.CharField(max_length=255)
+    #location = models.CharField(max_length=255)
     status = models.IntegerField(choices=STATUS, default=0)
 
     def get_absolute_url(self):
