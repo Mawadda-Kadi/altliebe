@@ -8,7 +8,7 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Profile, State, City
+from .models import Profile
 from .forms import UserRegisterForm, ProfileForm
 from products.models import Product
 import logging
@@ -31,6 +31,15 @@ def register(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
+
+                # Update the profile with city and state names
+                profile = user.profile
+                city_instance = form.cleaned_data.get('city')
+                state_instance = form.cleaned_data.get('state')
+                profile.city = city_instance.name if city_instance else ''
+                profile.state = state_instance.name if state_instance else ''
+                profile.save()
+
                 messages.success(request, f'Account created for {username}! You are now able to log in')
                 return redirect('user-profile', username=username)
         else:

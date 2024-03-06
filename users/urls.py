@@ -1,5 +1,5 @@
 from django.urls import path
-from .models import Profile, State, City
+from .models import Profile
 from .views import register, CustomLoginView, profile_view, ProfileUpdate, ProfileDelete
 from django.contrib.auth import views as auth_views
 from . import views

@@ -19,12 +19,11 @@
         alt="Profile image">
     <p>Email: {{ user.email }}</p>
     <p>About Me: {{ user.profile.about_me }}</p>
-    {% if user.profile.city %}
-    <p>Location: {{ user.profile.city.name }}, {{ user.profile.city.state.name }}</p>
+    {% if profile.city or profile.state %}
+    <p>Location: {{ profile.city }}, {{ profile.state }}</p>
     {% else %}
-    <p>Location: Not set</p>
+    <p>Location: Not Set</p>
     {% endif %}
-
     <h3>My Products</h3>
     {% for product in user.products.all %}
     <div>
@@ -42,13 +41,13 @@
 </div>
 {% else %}
 <div class="container">
-    <h2>Viewing {{ product.seller.profile.user.username }}'s profile.</h2>
+    <h2>Viewing {{ product.seller.profile.username }}'s profile.</h2>
     <img src="{% static 'users/images/default-profile-image.webp' %}"
         alt="Profile image">
     <p>Email: {{ product.seller.profile.user.email }}</p>
     <p>About Me: {{ user.profile.about_me }}</p>
-    {% if user.profile.city %}
-    <p>Location: {{ product.seller.profile.city.name }}, {{ product.seller.profile.city.state.name }}</p>
+    {% if product.seller.user.profile.city %}
+    <p>Location: {{ product.seller.profile.city }}, {{ product.seller.profile.state }}</p>
     {% else %}
     <p>Location: Not set</p>
     {% endif %}

@@ -7,8 +7,8 @@ class UserRegisterForm(forms.ModelForm):
     email = forms.EmailField()
     password1 = forms.CharField(widget=forms.PasswordInput())
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput())
-    state = forms.ModelChoiceField(queryset=State.objects.all(), empty_label="Select State")
-    city = forms.ModelChoiceField(queryset=City.objects.all().order_by('name'), empty_label="Select City")
+    state = forms.ModelChoiceField(queryset=State.objects.all(), required=False, empty_label="Select State")
+    city = forms.ModelChoiceField(queryset=City.objects.all(), required=False, empty_label="Select City")
 
     class Meta:
         model = User
@@ -27,18 +27,15 @@ class UserRegisterForm(forms.ModelForm):
         if commit:
             user.save()
 
-            # Assuming `city` in `cleaned_data` is the city ID, not the name
-            city_id = self.cleaned_data.get('city')
-            city = City.objects.get(id=city_id)
-
-            profile, profile_created = Profile.objects.update_or_create(
-                user=user,
-                defaults={'city': city},
-            )
-
-            return user
+        profile, created = Profile.objects.update_or_create(
+            user=user,
+        )
+        return user
 
 class ProfileForm(forms.ModelForm):
+    state = forms.ModelChoiceField(queryset=State.objects.all(), required=False, empty_label="Select State")
+    city = forms.ModelChoiceField(queryset=City.objects.all(), required=False, empty_label="Select City")
+    
     class Meta:
         model = Profile
         # Editable fields
