@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from .models import Product
 from .forms import ProductForm
+from users.models import Profile
 import logging
 
 User = get_user_model()
@@ -57,7 +58,7 @@ class ProductCreate(LoginRequiredMixin, CreateView):
         form.instance.seller = self.request.user
         user_profile = self.request.user.profile
         form.instance.city = user_profile.city
-        form.instance.city.state = user_profile.city.state
+        form.instance.address = user_profile.state
         return super(ProductCreate, self).form_valid(form)
 
 class ProductUpdate(UpdateView):
@@ -73,7 +74,7 @@ class ProductUpdate(UpdateView):
         form.instance.seller = self.request.user
         user_profile = self.request.user.profile
         form.instance.city = user_profile.city
-        form.instance.address = user_profile.address
+        form.instance.address = user_profile.state
         return super().form_valid(form)
 
 class ProductDelete(DeleteView):
