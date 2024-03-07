@@ -85,9 +85,9 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 # Delete Account View
-class ProfileDelete(LoginRequiredMixin, DeleteView):
+class AccountDelete(LoginRequiredMixin, DeleteView):
     model = Profile
-    template_name = 'users/profile_confirm_delete.html'
+    template_name = 'users/account_confirm_delete.html'
     # Redirect to product list view after deletion
     success_url = reverse_lazy('product-list')
 

@@ -33,7 +33,7 @@ STATUS = (
 class Product(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    featured_image = CloudinaryField('image', default='placeholder')
+    featured_image = CloudinaryField('image', default='products/static/images/product-default-image.jpg')
     category = models.IntegerField(choices=CATEGORY, default=0)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)

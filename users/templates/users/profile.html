@@ -15,8 +15,12 @@
 <div class="container">
     <h2>My Profile</h2>
     <p>Welcome, {{ user.username }}!</p>
-    <img src="{% static 'users/images/default-profile-image.webp' %}"
-        alt="Profile image">
+    {% if profile.featured_image %}
+    <img src="{{ profile.featured_image.url }}" alt="Profile Image">
+    {% else %}
+    <img src="{% static 'images/profile-default-image.jpg' %}"
+        alt="Default Profile Image">
+    {% endif %}
     <p>Email: {{ user.email }}</p>
     <p>About Me: {{ user.profile.about_me }}</p>
     {% if profile.city or profile.state %}
@@ -27,8 +31,8 @@
     <h3>My Products</h3>
     {% for product in user.products.all %}
     <div>
-        <a href="{% url 'product-detail' slug=product.slug %}">{{ product.title
-            }}</a> - {{ product.description }}
+        <a href="{% url 'product-detail' product.slug %}">
+            {{ product.title }}</a> - {{ product.description }}
     </div>
     {% empty %}
     <p>You have not added any products yet.</p>
@@ -54,8 +58,8 @@
     <h3>{{ product.seller.profile.user.username }}'s Products</h3>
     {% for product in profile.user.products.all %}
     <div>
-        <a href="{% url 'product-detail' slug=product.slug %}">{{ product.title
-            }}</a> - {{ product.description }}
+        <a href="{% url 'product-detail' product.slug %}">
+            {{ product.title }}</a> - {{ product.description }}
     </div>
     {% empty %}
     <p>They have not added any products yet.</p>

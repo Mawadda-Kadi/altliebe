@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 <article>
     <h1>{{ product.title }}</h1>
-    {% if product.image %}
-    <img src="{{ product.image.url }}" alt="{{ product.title }}"
-        style="width:100px; height:auto;">
+    <div>
+    {% if product.featured_image %}
+    <img class="card-img-top" src="{{ product.featured_image.url }}"
+        alt="{{ product.title }}">
+    {% else %}
+    <img class="card-img-top"
+        src="{% static 'products/images/product-default-image.jpg' %}"
+        alt="Default Image">
     {% endif %}
+    </div>
     <p>Category: {{ product.get_category_display}}</p>
     <p>{{ product.description }}</p>
     <p>Price: {{ product.price }} €</p>

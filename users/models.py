@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from cloudinary.models import CloudinaryField
 
 
 # Create your models here.
@@ -21,7 +22,7 @@ class City(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    #image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    featured_image = CloudinaryField('image', default='users/static/images/profile-default-image.webp')
     about_me = models.TextField(blank=True)
     city = models.CharField(max_length=50, blank=True, null=True)
     state = models.CharField(max_length=50, blank=True, null=True)

@@ -11,6 +11,7 @@ from .forms import ProductForm, ProductSearchForm
 from users.models import Profile
 import logging
 
+
 User = get_user_model()
 logger = logging.getLogger(__name__)
 
@@ -18,7 +19,6 @@ def my_function():
     logger.debug('This is a debug message')
 
 # Create your views here.
-
 class ProductList(generic.ListView):
     model = Product
     template_name = "products/product_list.html"
@@ -67,6 +67,8 @@ class ProductList(generic.ListView):
         # Pass the search form to the template
         context['form'] = ProductSearchForm(self.request.GET or None)
         return context
+
+
 class ProductDetail(DetailView):
     model = Product
     template_name = 'products/product_detail.html'
@@ -75,10 +77,18 @@ class ProductDetail(DetailView):
         """Ensure only available products can be viewed."""
         return super().get_queryset().all()
 
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the products
+        context['product'] = self.get_object()
+        return context
+
+
 class ProductCreate(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
-    template_name = 'products/product_form.html'
+    template_name = 'products/product_create.html'
     # Redirect to product list view after creation
     success_url = reverse_lazy('product-list')
 
@@ -94,9 +104,10 @@ class ProductCreate(LoginRequiredMixin, CreateView):
         form.instance.address = user_profile.state
         return super(ProductCreate, self).form_valid(form)
 
+
 class ProductUpdate(UpdateView):
     model = Product
-    fields = ['title', 'category', 'description', 'price', 'status', 'availability']
+    fields = ['title', 'featured_image', 'category', 'description', 'price', 'status', 'availability']
     template_name = 'products/product_form.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
@@ -109,6 +120,7 @@ class ProductUpdate(UpdateView):
         form.instance.city = user_profile.city
         form.instance.address = user_profile.state
         return super().form_valid(form)
+
 
 class ProductDelete(DeleteView):
     model = Product

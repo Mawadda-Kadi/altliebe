@@ -28,6 +28,15 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 #SECRET_KEY = 'django-insecure-sw)%p)7#-5)4(w&q$^exl&--c9$)(jsk&h2x*=hma0&&#sgez1'
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
+# Cloudinary settings
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET')
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -143,10 +152,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Media Files
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

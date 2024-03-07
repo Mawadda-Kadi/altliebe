@@ -5,7 +5,7 @@ from .models import Profile, State, City
 
 class UserRegisterForm(forms.ModelForm):
     email = forms.EmailField()
-    password1 = forms.CharField(widget=forms.PasswordInput())
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput())
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput())
     state = forms.ModelChoiceField(queryset=State.objects.all(), required=False, empty_label="Select State")
     city = forms.ModelChoiceField(queryset=City.objects.all(), required=False, empty_label="Select City")
@@ -35,11 +35,11 @@ class UserRegisterForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     state = forms.ModelChoiceField(queryset=State.objects.all(), required=False, empty_label="Select State")
     city = forms.ModelChoiceField(queryset=City.objects.all(), required=False, empty_label="Select City")
-    
+
     class Meta:
         model = Profile
         # Editable fields
-        fields = ['about_me', 'state', 'city' ]
+        fields = ['featured_image', 'about_me', 'state', 'city' ]
         widgets = {
             'about_me': forms.Textarea(attrs={'rows': 4}),
         }
