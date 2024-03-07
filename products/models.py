@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField
 import logging
 
 
@@ -32,7 +33,7 @@ STATUS = (
 class Product(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    #image = models.ImageField(upload_to='product_images/')
+    featured_image = CloudinaryField('image', default='placeholder')
     category = models.IntegerField(choices=CATEGORY, default=0)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
