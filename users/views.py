@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Profile
 from .forms import UserRegisterForm, ProfileForm
-from products.models import Product
+from products.models import Product, Wishlist
 import logging
 
 
@@ -64,7 +64,16 @@ class CustomLoginView(LoginView):
 def profile_view(request, username):
     user = get_object_or_404(User, username=username)
     own_profile = request.user == user
-    return render(request, 'users/profile.html', {'profile': user.profile, 'own_profile': own_profile})
+    wishlist_items = Wishlist.objects.filter(user=request.user)
+    #wishlist_items = Wishlist.objects.filter(user=user)
+
+    context = {
+        'user_profile': user.profile,
+        'own_profile': own_profile,
+        'wishlist_items': wishlist_items,
+    }
+
+    return render(request, 'users/profile.html', context)
 
 # Profile Update View
 class ProfileUpdate(LoginRequiredMixin, UpdateView):

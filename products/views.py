@@ -1,12 +1,13 @@
 from django.db.models import Q
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
-from django.views import generic
+from django.views import generic, View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
-from .models import Product
+from django.http import HttpResponse, HttpResponseRedirect
+from .models import Product, Wishlist
 from .forms import ProductForm, ProductSearchForm
 from users.models import Profile
 import logging
@@ -127,3 +128,19 @@ class ProductDelete(DeleteView):
     template_name = 'products/product_confirm_delete.html'
     # Redirect to product list view after deletion
     success_url = reverse_lazy('product-list')
+
+
+class AddToWishlistView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        product_id = kwargs.get('product_id')
+        product = get_object_or_404(Product, id=product_id)
+
+        # Check if the product is owned by the user
+        if product.seller == request.user:
+            messages.error(request, "You cannot add your own product to the wishlist.")
+            return HttpResponseRedirect(reverse('product-detail', kwargs={'slug': product.slug}))
+
+        # Proceed to add to wishlist if it's not the user's own product
+        Wishlist.objects.get_or_create(user=request.user, product=product)
+        messages.success(request, "Product added to your wishlist.")
+        return HttpResponseRedirect(reverse('product-detail', kwargs={'slug': product.slug}))

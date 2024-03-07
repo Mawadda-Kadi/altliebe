@@ -51,3 +51,16 @@ class Product(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super(Product, self).save(*args, **kwargs)
+
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlist')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='wished_by')
+    added_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        # Prevent duplicate wishlist items for the same user
+        unique_together = ('user', 'product')
+
+    def __str__(self):
+        return f"{self.user.username}'s wishlist"

@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
 <article>
     <h1>{{ product.title }}</h1>
     <div>
@@ -29,6 +38,12 @@
     <p>This product is reserved.</p>
     {% else %}
     <p>This product is sold.</p>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <form action="{% url 'add-to-wishlist' product.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Add to Wishlist</button>
+    </form>
     {% endif %}
     {% if user.is_authenticated and user == product.seller %}
     <a href="{% url 'product-update' slug=product.slug %}"

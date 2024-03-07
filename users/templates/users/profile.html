@@ -38,6 +38,16 @@
     <p>You have not added any products yet.</p>
     {% endfor %}
 
+    <h3>My Wishlist</h3>
+    {% for item in wishlist_items %}
+    <a href="{% url 'product-detail' slug=item.product.slug %}">
+        {{ item.product.title }}</a> - {{ item.product.description }}
+    </a>
+    {% empty %}
+    <p>Your wishlist is empty.</p>
+    {% endfor %}
+    </div>
+
     <a href="{% url 'edit-profile' %}" class="btn btn-primary">Edit Profile</a>
     <a href="{% url 'delete-account' %}" class="btn btn-danger">Delete
         Account</a>
@@ -51,7 +61,8 @@
     <p>Email: {{ product.seller.profile.user.email }}</p>
     <p>About Me: {{ user.profile.about_me }}</p>
     {% if product.seller.user.profile.city %}
-    <p>Location: {{ product.seller.profile.city }}, {{ product.seller.profile.state }}</p>
+    <p>Location: {{ product.seller.profile.city }}, {{
+        product.seller.profile.state }}</p>
     {% else %}
     <p>Location: Not set</p>
     {% endif %}
