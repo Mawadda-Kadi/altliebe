@@ -21,6 +21,15 @@
         src="{% static 'products/images/product-default-image.jpg' %}"
         alt="Default Image">
     {% endif %}
+
+    <!-- Display additional images -->
+    <div>
+        {% for image in product.images.all %}
+        <img src="{{ image.image.url }}" alt="Additional Image"
+            style="width:200px; height:auto;">
+        {% endfor %}
+    </div>
+    
     </div>
     <p>Category: {{ product.get_category_display}}</p>
     <p>{{ product.description }}</p>

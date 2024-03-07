@@ -4,12 +4,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic, View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy, reverse
+from django.forms import inlineformset_factory
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Product, Wishlist
-from .forms import ProductForm, ProductSearchForm
+from .models import Product, ProductImage, Wishlist
+from .forms import ProductForm, ProductSearchForm, ProductImageForm
 from users.models import Profile
 import logging
 
@@ -19,6 +20,18 @@ logger = logging.getLogger(__name__)
 
 def my_function():
     logger.debug('This is a debug message')
+
+
+# Create the formset class
+ProductImageFormSet = inlineformset_factory(
+    Product,
+    ProductImage,
+    form=ProductImageForm,
+    extra=5,
+    max_num=5,
+    can_delete=True
+)
+
 
 # Create your views here.
 class ProductList(generic.ListView):
@@ -91,37 +104,58 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'products/product_create.html'
-    # Redirect to product list view after creation
     success_url = reverse_lazy('product-list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object'] = None
+        if self.request.POST:
+            context['formset'] = ProductImageFormSet(self.request.POST, self.request.FILES)
+        else:
+            context['formset'] = ProductImageFormSet()
         return context
 
     def form_valid(self, form):
+        # Ensure seller is set to the current user
         form.instance.seller = self.request.user
-        user_profile = self.request.user.profile
-        form.instance.city = user_profile.city
-        form.instance.address = user_profile.state
-        return super(ProductCreate, self).form_valid(form)
+        # Save the Product
+        response = super().form_valid(form)
+        formset = self.get_context_data().get('formset')
+        if formset.is_valid():
+            # Make sure formset is associated with the newly created Product
+            formset.instance = self.object
+            formset.save()
+        return response
 
 
-class ProductUpdate(UpdateView):
+class ProductUpdate(LoginRequiredMixin, UpdateView):
     model = Product
     fields = ['title', 'featured_image', 'category', 'description', 'price', 'status', 'availability']
     template_name = 'products/product_form.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
-    # Redirect to product list view after updte
     success_url = reverse_lazy('product-list')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = ProductImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            context['formset'] = ProductImageFormSet(instance=self.object)
+        return context
+
     def form_valid(self, form):
-        form.instance.seller = self.request.user
-        user_profile = self.request.user.profile
-        form.instance.city = user_profile.city
-        form.instance.address = user_profile.state
-        return super().form_valid(form)
+        context = self.get_context_data()
+        formset = context['formset']  # This ensures formset is accessible in this method
+        if form.is_valid() and formset.is_valid():
+            self.object = form.save(commit=False)
+            self.object.seller = self.request.user
+            self.object.city = self.request.user.profile.city
+            self.object.state = self.request.user.profile.state
+            self.object.save()
+            formset.instance = self.object
+            formset.save()
+            return redirect(self.get_success_url())
+        return self.render_to_response(context)
 
 
 class ProductDelete(DeleteView):

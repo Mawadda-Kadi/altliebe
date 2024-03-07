@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product, ProductImage
 from users.models import State
 
 # Choices Fields
@@ -28,3 +28,9 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['title', 'featured_image', 'description', 'category', 'price', 'status', 'availability']
+
+
+class ProductImageForm(forms.ModelForm):
+    class Meta:
+        model = ProductImage
+        fields = ['image']
