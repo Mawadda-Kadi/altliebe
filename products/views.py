@@ -1,11 +1,12 @@
 from django.db.models import Q
 from django.contrib import messages
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic, View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Product, Wishlist
 from .forms import ProductForm, ProductSearchForm
@@ -144,3 +145,19 @@ class AddToWishlistView(LoginRequiredMixin, View):
         Wishlist.objects.get_or_create(user=request.user, product=product)
         messages.success(request, "Product added to your wishlist.")
         return HttpResponseRedirect(reverse('product-detail', kwargs={'slug': product.slug}))
+
+
+@login_required
+def wishlist_view(request):
+    # Get the wishlist items for the current user
+    wishlist_items = Wishlist.objects.filter(user=request.user).select_related('product')
+
+    return render(request, 'products/wishlist.html', {'wishlist_items': wishlist_items})
+
+
+class RemoveFromWishlistView(LoginRequiredMixin, View):
+    def post(self, request, product_id):
+        # Get the product and remove it from the user's wishlist
+        product = get_object_or_404(Product, id=product_id)
+        Wishlist.objects.filter(user=request.user, product=product).delete()
+        return redirect('wishlist-view')

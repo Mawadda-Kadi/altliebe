@@ -3,6 +3,7 @@
 
 {% block content %}
 
+<!-- Alert Messages -->
 {% if messages %}
 {% for message in messages %}
 <div class="alert alert-{{ message.tags }}">
@@ -11,6 +12,7 @@
 {% endfor %}
 {% endif %}
 
+<!-- User's Own Profile -->
 {% if own_profile %}
 <div class="container">
     <h2>My Profile</h2>
@@ -28,6 +30,8 @@
     {% else %}
     <p>Location: Not Set</p>
     {% endif %}
+
+    <!-- User's Products -->
     <h3>My Products</h3>
     {% for product in user.products.all %}
     <div>
@@ -38,7 +42,9 @@
     <p>You have not added any products yet.</p>
     {% endfor %}
 
-    <h3>My Wishlist</h3>
+    <!-- User's Wishlist -->
+    <h3><a href="{% url 'wishlist-view' %}">
+            My Wishlist:</a></h3>
     {% for item in wishlist_items %}
     <a href="{% url 'product-detail' slug=item.product.slug %}">
         {{ item.product.title }}</a> - {{ item.product.description }}
@@ -48,26 +54,32 @@
     {% endfor %}
     </div>
 
+    <!-- Profile Controls -->
     <a href="{% url 'edit-profile' %}" class="btn btn-primary">Edit Profile</a>
     <a href="{% url 'delete-account' %}" class="btn btn-danger">Delete
         Account</a>
     <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
 </div>
+
+<!-- Seller's Profile -->
 {% else %}
 <div class="container">
-    <h2>Viewing {{ product.seller.profile.username }}'s profile.</h2>
+    <h2>Viewing {{ profile_user.username }}'s profile.</h2>
     <img src="{% static 'users/images/default-profile-image.webp' %}"
         alt="Profile image">
-    <p>Email: {{ product.seller.profile.user.email }}</p>
-    <p>About Me: {{ user.profile.about_me }}</p>
-    {% if product.seller.user.profile.city %}
-    <p>Location: {{ product.seller.profile.city }}, {{
-        product.seller.profile.state }}</p>
+    <p>Email: {{ profile_user.email }}</p>
+    <p>About Me: {{ profile_user.about_me }}</p>
+
+    <!-- to be edited -->
+    {% if profile_user.city %}
+    <p>Location: {{ profile_user.city }}, {{ profile_user.state }}</p>
     {% else %}
     <p>Location: Not set</p>
     {% endif %}
-    <h3>{{ product.seller.profile.user.username }}'s Products</h3>
-    {% for product in profile.user.products.all %}
+
+    <!-- Seller's Products -->
+    <h3>{{ profile_user.username }}'s Products</h3>
+    {% for product in profile_user.products.all %}
     <div>
         <a href="{% url 'product-detail' product.slug %}">
             {{ product.title }}</a> - {{ product.description }}
@@ -75,6 +87,18 @@
     {% empty %}
     <p>They have not added any products yet.</p>
     {% endfor %}
+
+    <!-- Seller's Wishlist -->
+    <h3>{{ profile_user.username }}'s Wishlist</h3>
+    {% for item in wishlist_items %}
+    <div>
+        <a href="{% url 'product-detail' slug=item.product.slug %}">
+            {{ item.product.title }}</a> - {{ item.product.description }}
+    </div>
+    {% empty %}
+    <p>This user's wishlist is empty.</p>
+    {% endfor %}
 </div>
 {% endif %}
+
 {% endblock %}

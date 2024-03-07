@@ -59,21 +59,24 @@ class CustomLoginView(LoginView):
         username = self.request.user.username
         return reverse('user-profile', kwargs={'username': username})
 
+
 # User Profile View
 @login_required
 def profile_view(request, username):
-    user = get_object_or_404(User, username=username)
-    own_profile = request.user == user
-    wishlist_items = Wishlist.objects.filter(user=request.user)
-    #wishlist_items = Wishlist.objects.filter(user=user)
+    # Get the user object for the profile being viewed
+    profile_user = get_object_or_404(User, username=username)
+    own_profile = request.user == profile_user  # Compare with the logged-in user
+
+    wishlist_items = Wishlist.objects.filter(user=profile_user)  # Get wishlist for the profile_user
 
     context = {
-        'user_profile': user.profile,
+        'profile_user': profile_user,
         'own_profile': own_profile,
         'wishlist_items': wishlist_items,
     }
 
     return render(request, 'users/profile.html', context)
+
 
 # Profile Update View
 class ProfileUpdate(LoginRequiredMixin, UpdateView):
