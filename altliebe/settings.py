@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'products',
     'users',
+    'messaging',
     'crispy_forms',
     'crispy_bootstrap4',
 ]
