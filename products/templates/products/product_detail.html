@@ -12,7 +12,10 @@
 
 <article>
     <h1>{{ product.title }}</h1>
+
+    <!-- Images Section-->
     <div>
+        <!-- Main Image -->
     {% if product.featured_image %}
     <img class="card-img-top" src="{{ product.featured_image.url }}"
         alt="{{ product.title }}">
@@ -22,19 +25,29 @@
         alt="Default Image">
     {% endif %}
 
-    <!-- Display additional images -->
+    <!-- Display Additional Images -->
     <div>
         {% for image in product.images.all %}
         <img src="{{ image.image.url }}" alt="Additional Image"
             style="width:200px; height:auto;">
         {% endfor %}
     </div>
-    
     </div>
+
     <p>Category: {{ product.get_category_display}}</p>
     <p>{{ product.description }}</p>
     <p>Price: {{ product.price }} €</p>
-    <p>Seller: <a href="{% url 'user-profile' username=product.seller.username %}">{{ product.seller.username }}</a></p>
+    <p>
+        Seller:
+        <a href="{% url 'user-profile' username=product.seller.username %}">
+            {{ product.seller.username }}</a>
+
+        <!-- DM the Seller -->
+        {% if user.is_authenticated %}
+        <a href="{% url 'start_conversation' product_slug=product.slug %}"
+            class="btn btn-primary">Message Seller</a>
+        {% endif %}
+    </p>
     {% if product.seller.profile.city or product.seller.profile.state %}
     <p>Location: {{ product.seller.profile.city }}, {{ product.seller.profile.state }}</p>
     {% else %}
@@ -48,12 +61,16 @@
     {% else %}
     <p>This product is sold.</p>
     {% endif %}
+
+    <!-- Wishlist Control-->
     {% if user.is_authenticated %}
     <form action="{% url 'add-to-wishlist' product.id %}" method="post">
         {% csrf_token %}
         <button type="submit">Add to Wishlist</button>
     </form>
     {% endif %}
+
+    <!-- Update and Delete Controls-->
     {% if user.is_authenticated and user == product.seller %}
     <a href="{% url 'product-update' slug=product.slug %}"
         class="btn btn-primary">Edit</a>

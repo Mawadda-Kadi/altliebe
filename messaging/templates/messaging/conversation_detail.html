@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Conversation about
+    <a href="{% url 'product-detail' product.slug %}">{{ product.title }}</a>
+</h1>
+
+<h2>Messages</h2>
+<ul>
+    {% for message in conversation.messages.all %}
+    <div>
+        <strong>{{ message.sender.username }}:</strong>
+        <p>{{ message.text }}</p>
+        <p>{{ message.sent_at }}</p>
+    </div>
+    {% endfor %}
+</ul>
+
+<h2>Send a new message</h2>
+<form method="post">
+    {% csrf_token %}
+    <textarea name="message" rows="4" cols="50"></textarea>
+    <button type="submit">Send</button>
+</form>
+{% endblock %}

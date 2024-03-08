@@ -1,18 +1,21 @@
 from django.db import models
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.utils.text import slugify
 from django.contrib.auth.models import User
+from products.models import Product
 
 
 # Create your models here.
 class Conversation(models.Model):
     participants = models.ManyToManyField(User, related_name='conversations')
-    product = models.ForeignKey('products.Product', on_delete=models.CASCADE, related_name='conversations')
-    slug = models.SlugField(max_length=255, unique=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='conversations')
     created_at = models.DateTimeField(auto_now_add=True)
+    topic = models.CharField(max_length=255, default='General Discussion')
+    status = models.CharField(max_length=100, default='Open')
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.product.title + '-' + str(self.id))
-        super().save(*args, **kwargs)
+    def get_absolute_url(self):
+     return reverse('conversation_detail', kwargs={'conversation_id': self.id})
 
     def __str__(self):
         return f"Conversation about {self.product.title}"
