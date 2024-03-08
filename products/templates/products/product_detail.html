@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block head_extra %}
+<!-- Custom CSS -->
+<link rel="stylesheet" type="text/css" href="{% static 'products/css/image_section.css' %}">
+{% endblock %}
+
 {% block content %}
 
 {% if messages %}
@@ -10,29 +16,37 @@
 {% endfor %}
 {% endif %}
 
-<article>
+<article class="container my-4">
     <h1>{{ product.title }}</h1>
 
     <!-- Images Section-->
-    <div>
-        <!-- Main Image -->
-    {% if product.featured_image %}
-    <img class="card-img-top" src="{{ product.featured_image.url }}"
-        alt="{{ product.title }}">
-    {% else %}
-    <img class="card-img-top"
-        src="{% static 'products/images/product-default-image.jpg' %}"
-        alt="Default Image">
-    {% endif %}
+    <!-- Images Section using Bootstrap Carousel with Fade Effect -->
+    <div id="carouselFade" class="carousel slide carousel-fade" data-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            {% for image in product.images.all %}
+            <div class="item{% if forloop.first %} active{% endif %}">
+                <img src="{{ image.image.url }}" alt="Product Image" class="center-block">
+                <!-- You can add caption here if needed -->
+                <div class="carousel-caption">
+                    <h3>{{ forloop.counter }} slide label</h3>
+                    <p>Additional description if needed.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
-    <!-- Display Additional Images -->
-    <div>
-        {% for image in product.images.all %}
-        <img src="{{ image.image.url }}" alt="Additional Image"
-            style="width:200px; height:auto;">
-        {% endfor %}
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carouselFade" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carouselFade" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
-    </div>
+
 
     <p>Category: {{ product.get_category_display}}</p>
     <p>{{ product.description }}</p>
@@ -44,8 +58,7 @@
 
         <!-- DM the Seller -->
         {% if user.is_authenticated %}
-        <a href="{% url 'start_conversation' product_slug=product.slug %}"
-            class="btn btn-primary">Message Seller</a>
+        <a href="{% url 'start_conversation' product_slug=product.slug %}" class="btn btn-primary">Message Seller</a>
         {% endif %}
     </p>
     {% if product.seller.profile.city or product.seller.profile.state %}
@@ -62,6 +75,38 @@
     <p>This product is sold.</p>
     {% endif %}
 
+    <!-- Conversation Section -->
+    <div>
+        <h2>Conversations about {{ product.title }}</h2>
+        <div>
+            {% for conversation in conversations %}
+            <div>
+                <p>Topic: {{ conversation.topic }}</p>
+                <ul>
+                    {% for message in conversation.messages.all %}
+                    <div>
+                        <strong>{{ message.sender.username }}:</strong>
+                        <p>{{ message.text }}</p>
+                        <p>{{ message.sent_at }}</p>
+                    </div>
+                    {% endfor %}
+                </ul>
+
+                <h2>Send a new message</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <textarea name="message" rows="4" cols="50"></textarea>
+                    <button type="submit">Send</button>
+                </form>
+                <a href="{% url 'conversation_detail' conversation_id=conversation.id %}">View
+                    Details</a>
+            </div>
+            {% empty %}
+            <p>No conversations for this product.</p>
+            {% endfor %}
+        </div>
+    </div>
+
     <!-- Wishlist Control-->
     {% if user.is_authenticated %}
     <form action="{% url 'add-to-wishlist' product.id %}" method="post">
@@ -72,10 +117,13 @@
 
     <!-- Update and Delete Controls-->
     {% if user.is_authenticated and user == product.seller %}
-    <a href="{% url 'product-update' slug=product.slug %}"
-        class="btn btn-primary">Edit</a>
-    <a href="{% url 'product-delete' slug=product.slug %}"
-        class="btn btn-danger">Delete</a>
+    <a href="{% url 'product-update' slug=product.slug %}" class="btn btn-primary">Edit</a>
+    <a href="{% url 'product-delete' slug=product.slug %}" class="btn btn-danger">Delete</a>
     {% endif %}
 </article>
+{% endblock %}
+
+{% block scripts %}
+<!-- JS Script -->
+<script src="{% static 'products/js/image_section.js' %}"></script>
 {% endblock %}

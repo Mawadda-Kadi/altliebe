@@ -12,6 +12,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Product, ProductImage, Wishlist
 from .forms import ProductForm, ProductSearchForm, ProductImageForm
 from users.models import Profile
+from messaging.models import Conversation
 import logging
 
 
@@ -96,7 +97,11 @@ class ProductDetail(DetailView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the products
-        context['product'] = self.get_object()
+        product = self.get_object()
+        context['product'] = product
+        conversations = Conversation.objects.filter(product=product).order_by('-created_at')
+        # Get the conversation object from the context to be rendered correctly
+        context['conversations'] = conversations
         return context
 
 
