@@ -1,0 +1,90 @@
+.profile-container {
+    line-height: 0;
+}
+
+
+
+.profile-header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header .btn {
+    margin-left: 5px;
+}
+
+/* User information box styling */
+.user-info {
+    background-color: #f8f9fa !important;
+    line-height: 2;
+}
+
+/* Styling for profile image */
+img.img-fluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+/* Styling for the cards containing products and wishlist items */
+
+.card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title a {
+    color: #333;
+    text-decoration: none;
+}
+
+.card-text {
+    color: #666;
+}
+
+/* Style for the user info and about me sections */
+.user-info p,
+.about-me p {
+    margin: 0 0 15px;
+    color: #333;
+    overflow-wrap: break-word;
+}
+
+/* Style for sections headings */
+h3 {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.wishlist-title {
+    margin-left: 15px;
+}
+
+.wishlist-body {
+    margin-left: 20px;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 991.98px) {
+    header {
+        text-align: center;
+    }
+
+    header .btn {
+        display: block;
+        margin-bottom: 5px;
+    }
+}

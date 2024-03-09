@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from users.models import State, City
+from django.db import transaction
 
 class Command(BaseCommand):
     help = 'Populates the database with states and cities'
@@ -24,10 +25,16 @@ class Command(BaseCommand):
             'Thuringia': ['Erfurt', 'Jena']
 }
 
-        for state_name, cities in states_cities.items():
-            state, created = State.objects.get_or_create(name=state_name)
-            if created:
-                self.stdout.write(self.style.SUCCESS(f'Successfully added state {state_name}'))
-            for city_name in cities:
-                City.objects.get_or_create(state=state, name=city_name)
-                self.stdout.write(self.style.SUCCESS(f'Added city {city_name}'))
+
+        with transaction.atomic():  # Use a transaction to ensure data integrity
+            # Clear the existing data
+            City.objects.all().delete()
+            State.objects.all().delete()
+
+            # Populate the new data
+            for state_name, cities in states_cities.items():
+                state = State.objects.create(name=state_name)
+                for city_name in cities:
+                    City.objects.create(name=city_name, state=state)
+
+        self.stdout.write(self.style.SUCCESS('Successfully populated the database with states and cities'))

@@ -1,0 +1,78 @@
+body {
+    font-family: Poppins, sans-serif;
+    color: #222;
+    background: #f8f8f8;
+}
+
+.container {
+    width: 900px;
+    background: #fff;
+    margin: 0 auto;
+    box-shadow: 0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    padding: 40px 0;
+}
+
+.display-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main,
+.signup-content,
+.signin-content {
+    display: flex;
+    justify-content: center;
+}
+
+.signup-form,
+.signin-form {
+    width: 50%;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+input,
+select,
+textarea {
+    outline: none;
+    border: none;
+    padding: 6px 30px;
+    width: 100%;
+}
+
+input[type=checkbox],
+input[type=radio] {
+    appearance: none;
+}
+
+button,
+.form-submit {
+    background: #6dabe4;
+    color: #fff;
+    border-radius: 5px;
+    padding: 15px 39px;
+    cursor: pointer;
+}
+
+#signin {
+    margin-top: 60px;
+}
+
+.form-submit:hover {
+    background: #4292dc;
+}
+
+@media screen and (max-width: 768px) {
+
+    .signup-content,
+    .signin-content,
+    .signup-form,
+    .signin-form {
+        width: auto;
+        padding: 0 10px;
+    }
+}

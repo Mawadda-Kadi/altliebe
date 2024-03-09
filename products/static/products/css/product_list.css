@@ -1,0 +1,144 @@
+/* ------------------- Sorting Styling  ------------------- */
+.sorting-options {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.sorting-options a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.sorting-options a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* ------------------- Product Styling  ------------------- */
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+
+.product-details {
+    padding: 15px;
+}
+
+.product-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-title a {
+    color: #007bff;
+    /* Bootstrap primary color */
+    text-decoration: none;
+}
+
+.product-title a:hover {
+    text-decoration: underline;
+}
+
+.product-category,
+.product-price,
+.product-seller,
+.product-location,
+.product-status,
+.product-availability,
+.product-posted {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    text-overflow: ellipsis;
+    width: 268px
+}
+
+.product-price {
+    font-weight: bold;
+    color: #333;
+}
+
+
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+}
+
+/* ------------- Responsive breakpoints for better spacing and stacking ---------- */
+@media (max-width: 991px) {
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+
+/* ------------------- Image Styling  ------------------- */
+.image-container {
+    width: 100%;
+    padding-top: 56.25%;
+    /* 16:9 Aspect Ratio */
+    position: relative;
+    /* For absolute image positioning */
+    margin: 5px;
+    border: 1px solid #ddd;
+    box-shadow: 5px 5px 15px #aaa;
+    /* Smooth transition for 3D effect and shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-container:hover {
+    /* Move up the container on hover */
+    transform: translateY(-10px);
+    /* Enhanced shadow on hover for more depth */
+    box-shadow: 10px 10px 20px #888;
+}
+
+
+.scale {
+    /* Responsive Images */
+    width: 100%;
+    height: auto;
+}
+
+
+/* ------------------- Pagination Styling  ------------------- */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination .step-links {
+    display: inline-block;
+    padding: 0;
+}
+
+.pagination .step-links a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.pagination .step-links a:hover {
+    text-decoration: underline;
+}
+
+.pagination .current {
+    margin: 0 10px;
+}

@@ -80,7 +80,7 @@ def register(request):
                 return redirect('user-profile', username=username)
     else:
         form = UserRegisterForm()
-    return render(request, 'users/register.html', {'form': form})
+    return render(request, 'users/signup.html', {'form': form})
 
 
 # Custom Login View
