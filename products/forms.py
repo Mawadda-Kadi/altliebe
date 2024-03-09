@@ -12,7 +12,7 @@ CATEGORY = (
     (4, "Toys and Games"),
     (5, "Books and Media"),
     (6, "Pet Supplies"),
-    (7, "Other")
+    (7, "Others")
 )
 STATUS = (
     ('', "Any"), (0, "used"), (1, "new"), (2, "handmade")

@@ -1,22 +1,35 @@
+/*--------------------- Title Styling --------------------*/
+.text-center {
+    margin-bottom: 60px;
+}
+
+/*--------------------- Gallery Styling--------------------*/
 .gallery-container {
     padding: 30px;
+    width: fit-content;
 }
 
 .image-caption {
     background-color: #007bff;
     color: white;
-    padding: 10px;
     text-align: center;
 }
 
 .image-container {
-    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 5px 5px 15px #aaa;
+    /* Smooth transition for 3D effect and shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .image-container img {
-    width: 100%;
-    height: auto;
+    width: 250px;
+    height: 230px;
+    object-fit: cover;
+    overflow: hidden;
 }
+
 
 .image-container:hover {
     /* Move up the container on hover */
@@ -30,17 +43,4 @@
     /* Responsive Images */
     width: 100%;
     height: auto;
-}
-
-/*--------------------- Filter Section --------------------*/
-.filter-section {
-    margin: 20px 0;
-}
-
-.filter-section input[type="checkbox"] {
-    margin-right: 5px;
-}
-
-.filter-section label {
-    margin-right: 10px;
 }

@@ -1,0 +1,46 @@
+.gallery-container {
+    padding: 30px;
+}
+
+.image-caption {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.image-container {
+    margin-bottom: 15px;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+}
+
+.image-container:hover {
+    /* Move up the container on hover */
+    transform: translateY(-10px);
+    /* Enhanced shadow on hover for more depth */
+    box-shadow: 10px 10px 20px #888;
+}
+
+
+.scale {
+    /* Responsive Images */
+    width: 100%;
+    height: auto;
+}
+
+/*--------------------- Filter Section --------------------*/
+.filter-section {
+    margin: 20px 0;
+}
+
+.filter-section input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.filter-section label {
+    margin-right: 10px;
+}

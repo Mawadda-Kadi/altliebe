@@ -1,11 +1,23 @@
+/*--------------------  Page Layout & Styling -----------------------*/
 body {
     font-family: 'Lato', sans-serif;
 }
 
+.product-page {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 20px;
+}
+
+.top-section {
+    display: flex;
+    gap: 20px;
+}
+/*--------------------  Carousel Styling -----------------------*/
 .carousel {
-    width: 700px;
+    position: relative;
     margin: auto;
-    /* Center the carousel */
+        /* Center the carousel */
     border: 3px solid #333;
     box-shadow: 0 4px 8px #333;
     border-radius: 15px;
@@ -13,11 +25,20 @@ body {
     /* Keep everything neat */
 }
 
+#carouselFade {
+    flex: 1;
+    height: 450px;
+    margin-right: 20px;
+}
+
 .carousel-inner,
 .carousel-item,
 .carousel-item img {
     height: 550px;
-    width: 700px;
+}
+
+.carousel-item {
+    width: 100%;
 }
 
 .carousel-fade .carousel-inner .carousel-item {
@@ -50,14 +71,100 @@ body {
     background-color: #AA094B;
 }
 
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Centers the indicators */
+    z-index: 15;
+    /* Ensures they are above the images */
+    list-style: none;
+    /* Removes default list styling */
+    display: flex;
+    padding-left: 0;
+    /* Removes default padding */
+    justify-content: center;
+    margin-right: 15%;
+    margin-left: 15%;
+}
+
 .carousel-indicators li {
     background-color: #BEA5A9;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    /* Make them circular */
+    cursor: pointer;
+    margin: 0 2px;
 }
 
 .carousel-indicators .active {
     background-color: #AA094B;
 }
 
+/*--------------------  Product Details Styling -----------------------*/
+.product-details {
+    background-color: #FFF3F7;
+    border: 3px solid #333;
+    box-shadow: 0 4px 8px #333;
+    border-radius: 15px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+/*--------------------  Conversation Styling -----------------------*/
+.conversation-section {
+    background-color: #f1e7df;;
+    border: 3px solid #333;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+/*--------------------  Buttons & Links Styling -----------------------*/
+.product-details a,
+.conversation-section a {
+    color: #AA094B;
+}
+
+.btn-primary {
+    background-color: #AA094B;
+    border-color: #AA094B;
+}
+
+.btn-primary:hover {
+    background-color: #BEA5A9;
+    border-color: #BEA5A9;
+}
+
+.btn-danger {
+    background-color: #333;
+    border-color: #333;
+}
+
+a {
+    color: #333;
+}
+
+a:hover {
+    color: #AA094B;
+}
+
+/*--------------------  Text Styling -----------------------*/
+.product-details p,
+.conversation-section p {
+    color: #333;
+}
+
+.product-details h1,
+.conversation-section h2 {
+    color: #333;
+}
+
+/*--------------------  @media -----------------------*/
 @media all and (transform-3d),
 (-webkit-transform-3d) {
 
