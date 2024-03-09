@@ -35,6 +35,8 @@ ProductImageFormSet = inlineformset_factory(
 
 
 # Create your views here.
+def index(request):
+    return render(request, 'products/index.html')
 class ProductList(generic.ListView):
     model = Product
     template_name = "products/product_list.html"

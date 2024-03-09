@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<!-- Custom CSS -->
+<link rel="stylesheet" type="text/css" href="{% static 'products/css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- Alert Section -->
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+{% endif %}
+
+<!-- Gallary Container -->
+<div class="container gallery-container">
+    <h1 class="text-center">AltLiebe</h1>
+    <div class="row">
+        <!-- Image container -->
+        <div class="col-md-3 image-container">
+            <img src="path-to-your-image.jpg" alt="Image description">
+            <div class="image-caption">Electronics</div>
+        </div>
+        <div class="col-md-3 image-container">
+            <img src="path-to-your-image.jpg" alt="Image description">
+            <div class="image-caption">Fashion and Apparel</div>
+        </div>
+        <div class="col-md-3 image-container">
+            <img src="path-to-your-image.jpg" alt="Image description">
+            <div class="image-caption">Home and Garden</div>
+        </div>
+        <div class="col-md-3 image-container">
+            <img src="path-to-your-image.jpg" alt="Image description">
+            <div class="image-caption">Sports and Outdoors</div>
+        </div>
+    </div>
+
+    <!-- Second row of images -->
+    <div class="row">
+        <div class="col-md-3 image-container">
+            <img src="path-to-your-image.jpg" alt="Image description">
+            <div class="image-caption">Toys and Games</div>
+        </div>
+        <div class="col-md-3 image-container">
+            <img src="path-to-your-image.jpg" alt="Image description">
+            <div class="image-caption">Books and Media</div>
+        </div>
+        <div class="col-md-3 image-container">
+            <img src="path-to-your-image.jpg" alt="Image description">
+            <div class="image-caption">Pet Supplies</div>
+        </div>
+        <div class="col-md-3 image-container">
+            <img src="path-to-your-image.jpg" alt="Image description">
+            <div class="image-caption">Other</div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <label><input type="checkbox" name="filter" value="used"> Used</label>
+    <label><input type="checkbox" name="filter" value="new"> New</label>
+    <label><input type="checkbox" name="filter" value="handmade"> Handmade</label>
+</div>
+{% endblock %}
