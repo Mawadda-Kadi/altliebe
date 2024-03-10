@@ -9,13 +9,12 @@ from products.models import Product
 # Create your models here.
 class Conversation(models.Model):
     participants = models.ManyToManyField(User, related_name='conversations')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='conversations')
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='conversation')
     created_at = models.DateTimeField(auto_now_add=True)
-    topic = models.CharField(max_length=255, default='General Discussion')
     status = models.CharField(max_length=100, default='Open')
 
     def get_absolute_url(self):
-     return reverse('conversation_detail', kwargs={'conversation_id': self.id})
+        return reverse('conversation_detail', kwargs={'conversation_id': self.id})
 
     def __str__(self):
         return f"Conversation about {self.product.title}"

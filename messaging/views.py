@@ -4,13 +4,14 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Conversation, Message
 from products.models import Product
+from django.contrib import messages
 
 # Create your views here.
 
 class ConversationList(ListView):
     model = Conversation
     context_object_name = 'conversations'
-    template_name = 'messaging/conversation_list.html'
+    template_name = 'products/product_detail.html'
 
     def get_queryset(self):
         return Conversation.objects.filter(participants=self.request.user)
@@ -18,7 +19,7 @@ class ConversationList(ListView):
 class ConversationDetail(DetailView):
     model = Conversation
     context_object_name = 'conversation'
-    template_name = 'messaging/conversation_detail.html'
+    template_name = 'products/product_detail.html'
     pk_url_kwarg = 'conversation_id'
 
     def post(self, request, *args, **kwargs):
@@ -54,15 +55,7 @@ class ConversationDetail(DetailView):
 class StartConversationView(LoginRequiredMixin, View):
     def get(self, request, product_slug):
         product = get_object_or_404(Product, slug=product_slug)
-        defaults = {
-            'topic': 'Product Inquiry',
-            'status': 'Open'
-        }
-        # Check if a conversation exists or create a new one
         conversation, created = Conversation.objects.get_or_create(
-            product=product,
-            defaults=defaults
+            product=product
         )
-        # Redirect to the conversation detail page
-        return redirect('conversation_detail', conversation_id=conversation.id)
-
+        return redirect('product-detail', slug=product.slug)

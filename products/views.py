@@ -12,7 +12,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Product, ProductImage, Wishlist
 from .forms import ProductForm, ProductSearchForm, ProductImageForm
 from users.models import Profile
-from messaging.models import Conversation
+from messaging.models import Conversation, Message
+from django.contrib import messages
 import logging
 
 
@@ -86,7 +87,6 @@ class ProductList(generic.ListView):
         context['form'] = ProductSearchForm(self.request.GET or None)
         return context
 
-
 class ProductDetail(DetailView):
     model = Product
     template_name = 'products/product_detail.html'
@@ -95,16 +95,34 @@ class ProductDetail(DetailView):
         """Ensure only available products can be viewed."""
         return super().get_queryset().all()
 
+    def post(self, request, *args, **kwargs):
+        # Get the product
+        self.object = self.get_object()
+        conversation, _ = Conversation.objects.get_or_create(product=self.object)
+
+        message_text = request.POST.get('message')
+        if message_text:
+            Message.objects.create(
+                conversation=conversation,
+                sender=request.user,
+                text=message_text
+            )
+            # Redirect to the product detail page after posting the message
+            return HttpResponseRedirect(self.object.get_absolute_url())
+        else:
+            # Handle the case where message is not valid
+            context = self.get_context_data()
+            context['error'] = 'Message text cannot be empty.'
+            return render(request, self.template_name, context)
+
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the products
         product = self.get_object()
         context['product'] = product
         conversations = Conversation.objects.filter(product=product).order_by('-created_at')
-        # Get the conversation object from the context to be rendered correctly
         context['conversations'] = conversations
         return context
+
 
 
 class ProductCreate(LoginRequiredMixin, CreateView):

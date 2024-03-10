@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from .views import index, ProductList, ProductDetail, ProductCreate, ProductUpdate, ProductDelete, AddToWishlistView, wishlist_view, RemoveFromWishlistView
 from users.views import profile_view
+from messaging.views import StartConversationView, ConversationDetail
 
 
 urlpatterns = [
@@ -15,5 +16,7 @@ urlpatterns = [
     path('add-to-wishlist/<int:product_id>/', AddToWishlistView.as_view(), name='add-to-wishlist'),
     path('wishlist/', wishlist_view, name='wishlist-view'),
     path('wishlist/remove/<int:product_id>/', RemoveFromWishlistView.as_view(), name='wishlist-remove'),
+    path('messaging/start/<slug:product_slug>/', StartConversationView.as_view(), name='start_conversation'),
+    path('messaging/conversation/<int:conversation_id>/', ConversationDetail.as_view(), name='conversation_detail'),
     #path('profile/<slug:username>/', views.profile_view, name='user-profile'),
 ]

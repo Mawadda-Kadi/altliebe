@@ -3,6 +3,8 @@
 .carousel {
     height: 100%;
     margin-top: 50px;
+    border: 1px solid #ddd;
+    box-shadow: 5px 5px 15px #aaa;
 }
 
 .carousel-inner img {
@@ -20,7 +22,6 @@
 
 .carousel-control-prev,
 .carousel-control-next {
-    height: calc(100% - 4rem);
     align-items: center;
 }
 
@@ -34,6 +35,12 @@
     padding: 1rem;
     height: 100%;
     margin-top: 50px;
+    border: 1px solid #ddd;
+    box-shadow: 5px 5px 15px #aaa;
+}
+
+.user-link a {
+    color: #333
 }
 
 /* ------------------- Conversation section ------------------- */
@@ -44,6 +51,12 @@
     padding: 1rem;
     margin-top: 2rem;
     word-wrap: break-word;
+    border: 1px solid #ddd;
+    box-shadow: 5px 5px 15px #aaa;
+}
+
+.msg-list {
+    list-style: none;
 }
 
 

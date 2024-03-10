@@ -10,10 +10,16 @@
 
 {% if messages %}
 {% for message in messages %}
-<div class="alert alert-{{ message.tags }}">
+<div class="alert alert-{{ message.tags }} mt-2">
     {{ message }}
 </div>
 {% endfor %}
+{% endif %}
+
+{% if error %}
+<div class="alert alert-danger mt-2">
+    {{ error }}
+</div>
 {% endif %}
 
 <div class="container my-4">
@@ -49,7 +55,7 @@
                 <p>Category: {{ product.get_category_display}}</p>
                 <p>{{ product.description }}</p>
                 <p>Price: {{ product.price }} €</p>
-                <p>
+                <p class="user-link">
                     Seller:
                     <a href="{% url 'user-profile' username=product.seller.username %}">
                         {{ product.seller.username }}</a>
@@ -89,39 +95,38 @@
     </div>
 
     <!-- Conversation Section -->
-    <div class="row">
-        <div class="col-12">
-            <div class="conversation-section">
-                <h2>Conversations about {{ product.title }}</h2>
-                <div>
-                    {% for conversation in conversations %}
-                    <div>
-                        <p>Topic: {{ conversation.topic }}</p>
-                        <ul>
-                            {% for message in conversation.messages.all %}
-                            <div>
-                                <strong class="product-seller"><a href="{% url 'user-profile' username=product.seller.username %}">
-                                        {{ product.seller.username }}</a>:</strong>
-                                <p>{{ message.text }}</p>
-                                <p>{{ message.sent_at }}</p>
-                            </div>
-                            {% endfor %}
-                        </ul>
 
-                        <h2>Send a new message</h2>
-                        {% if user.is_authenticated %}
-                        <form method="post">
-                            {% csrf_token %}
-                            <textarea name="message" rows="4" cols="50"></textarea>
-                            <button type="submit">Send</button>
-                        </form>
-                        {% endif %}
-                    </div>
-                    {% empty %}
-                    <p>No conversations for this product.</p>
-                    {% endfor %}
-                </div>
-            </div>
+    <div class="row conversation-section">
+        <div class="col-12">
+            {% if user.is_authenticated %}
+            <h2>Conversation about {{ product.title }}</h2>
+
+            <!-- Display existing messages if conversation exists -->
+            {% if product.conversation %}
+            <ul>
+                {% for message in product.conversation.messages.all %}
+                <li class="msg-list">
+                    <strong class="user-link"><a href="{% url 'user-profile' username=message.sender.username %}">
+                            {{ message.sender.username }}:</a></strong>
+                    {{ message.text }} - <small class="muted">{{ message.sent_at }}</small>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No conversation for this product yet. Be the first to send a message.</p>
+            {% endif %}
+
+            <!-- Message form to start or continue a conversation -->
+            <h3>Send a new message</h3>
+            <form method="post" action="{% url 'product-detail' slug=product.slug %}">
+                {% csrf_token %}
+                <textarea name="message" class="form-control" rows="4" cols="50"></textarea>
+                <button type="submit" class="btn btn-primary mt-2">Send</button>
+            </form>
+
+            {% else %}
+            <p>Please <a href="{% url 'login' %}">login</a> to view or start a conversation about this product.</p>
+            {% endif %}
         </div>
     </div>
 </div>
