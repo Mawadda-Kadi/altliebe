@@ -3,7 +3,7 @@
 
 {% block extra_css %}
 <!-- Custom CSS -->
-<link rel="stylesheet" type="text/css" href="{% static 'products/css/product_detail.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'products/css/image_section.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -17,10 +17,10 @@
 {% endif %}
 
 <div class="container my-4">
-    <div class="row h-100">
+    <div class="row">
         <!-- Images Section using Bootstrap Carousel with Fade Effect -->
-        <div class="col-md-6 h-100">
-            <div id="carouselFade" class="carousel slide carousel-fade h-100" data-ride="carousel">
+        <div class="col-md-6">
+            <div id="carouselFade" class="carousel slide carousel-fade" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img src="{{ product.featured_image.url }}" alt="{{ product.title }}" class="d-block w-100">
@@ -43,8 +43,8 @@
         </div>
 
         <!-- Product's Details Section -->
-        <div class="col-md-6 d-flex flex-column">
-            <div class="product-details flex-fill d-flex flex-column justify-content-between">
+        <div class="col-md-6">
+            <div class="product-details">
                 <h1>{{ product.title }}</h1>
                 <p>Category: {{ product.get_category_display}}</p>
                 <p>{{ product.description }}</p>
@@ -67,23 +67,28 @@
                 {% else %}
                 <p>This product is sold.</p>
                 {% endif %}
-
-                <!-- Buttons at the bottom -->
-                <div class="d-flex justify-content-start">
+                
+                <span>
                     <!-- Wishlist Control-->
                     {% if user.is_authenticated %}
-                    <form action="{% url 'add-to-wishlist' product.id %}" method="post" class="mr-2">
+                    <form action="{% url 'add-to-wishlist' product.id %}" method="post">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-secondary">Add to Wishlist</button>
+                        <button type="submit">Add to Wishlist</button>
                     </form>
+                    {% endif %}
+
+                    <!-- Start Conversation Button -->
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'start_conversation' product_slug=product.slug %}"
+                        class="btn btn-primary">Interstead in {{ product.title }}? </a>
                     {% endif %}
 
                     <!-- Update and Delete Controls-->
                     {% if user.is_authenticated and user == product.seller %}
-                    <a href="{% url 'product-update' slug=product.slug %}" class="btn btn-primary mr-2">Edit</a>
+                    <a href="{% url 'product-update' slug=product.slug %}" class="btn btn-primary">Edit</a>
                     <a href="{% url 'product-delete' slug=product.slug %}" class="btn btn-danger">Delete</a>
                     {% endif %}
-                </div>
+                </span>
             </div>
         </div>
     </div>
@@ -100,8 +105,7 @@
                         <ul>
                             {% for message in conversation.messages.all %}
                             <div>
-                                <strong class="product-seller"><a href="{% url 'user-profile' username=product.seller.username %}">
-                                        {{ product.seller.username }}</a>:</strong>
+                                <strong>{{ message.sender.username }}:</strong>
                                 <p>{{ message.text }}</p>
                                 <p>{{ message.sent_at }}</p>
                             </div>
@@ -109,13 +113,13 @@
                         </ul>
 
                         <h2>Send a new message</h2>
-                        {% if user.is_authenticated %}
                         <form method="post">
                             {% csrf_token %}
                             <textarea name="message" rows="4" cols="50"></textarea>
                             <button type="submit">Send</button>
                         </form>
-                        {% endif %}
+                        <a href="{% url 'conversation_detail' conversation_id=conversation.id %}">View
+                            Details</a>
                     </div>
                     {% empty %}
                     <p>No conversations for this product.</p>

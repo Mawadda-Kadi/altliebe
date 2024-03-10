@@ -47,7 +47,7 @@ class ConversationDetail(DetailView):
         conversation = context['conversation']
         # Add the message query set to the context
         context['messages'] = conversation.messages.order_by('sent_at')
-        # Ensure to render product title in templates 
+        # Ensure to render product title in templates
         context['product'] = conversation.product
         return context
 

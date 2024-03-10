@@ -41,7 +41,7 @@ class ProductList(generic.ListView):
     model = Product
     template_name = "products/product_list.html"
     context_object_name = 'products'
-    paginate_by = 4
+    paginate_by = 6
 
     def get_queryset(self):
         # Start with all available or reserved products
