@@ -1,3 +1,4 @@
+from django.db import IntegrityError, transaction
 from django.db.models import Q
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
@@ -124,7 +125,7 @@ class ProductDetail(DetailView):
         return context
 
 
-
+#Product Create View
 class ProductCreate(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
@@ -133,23 +134,44 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context['formset'] = ProductImageFormSet(self.request.POST, self.request.FILES)
-        else:
+        if 'form' not in context:
+            context['form'] = self.form_class(self.request.GET)
+        if 'formset' not in context:
             context['formset'] = ProductImageFormSet()
         return context
 
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form = self.get_form()
+        formset = ProductImageFormSet(request.POST, request.FILES)
+
+        if form.is_valid() and formset.is_valid():
+            try:
+                with transaction.atomic():
+                    # Set the seller to the current user
+                    form.instance.seller = request.user
+                    # Now the self.object will have the newly created object
+                    self.object = form.save()
+
+                    # Set the instance of the formset and save
+                    formset.instance = self.object
+                    formset.save()
+
+                return super().form_valid(form)
+
+            except IntegrityError:
+                # Handle error when a newly added product has the same title
+                messages.error(request, 'A product with this title already exists.')
+                return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
     def form_valid(self, form):
-        # Ensure seller is set to the current user
-        form.instance.seller = self.request.user
-        # Save the Product
+        """ This method is what sets self.object = form.save() """
         response = super().form_valid(form)
-        formset = self.get_context_data().get('formset')
-        if formset.is_valid():
-            # Make sure formset is associated with the newly created Product
-            formset.instance = self.object
-            formset.save()
+        # form_valid should not be called if the form is not valid
         return response
+
 
 
 class ProductUpdate(LoginRequiredMixin, UpdateView):
@@ -170,7 +192,8 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         context = self.get_context_data()
-        formset = context['formset']  # This ensures formset is accessible in this method
+        # This ensures formset is accessible in this method
+        formset = context['formset']
         if form.is_valid() and formset.is_valid():
             self.object = form.save(commit=False)
             self.object.seller = self.request.user
