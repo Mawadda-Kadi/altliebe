@@ -18,5 +18,4 @@ urlpatterns = [
     path('wishlist/remove/<int:product_id>/', RemoveFromWishlistView.as_view(), name='wishlist-remove'),
     path('messaging/start/<slug:product_slug>/', StartConversationView.as_view(), name='start_conversation'),
     path('messaging/conversation/<int:conversation_id>/', ConversationDetail.as_view(), name='conversation_detail'),
-    #path('profile/<slug:username>/', views.profile_view, name='user-profile'),
 ]
