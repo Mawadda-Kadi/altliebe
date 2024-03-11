@@ -1,7 +1,7 @@
 console.log("TEST")
 document.addEventListener("DOMContentLoaded", function () {
-    const stateSelect = document.querySelector("#id_state");
-    const citySelect = document.querySelector("#id_city");
+    const stateSelect = document.querySelector("#state");
+    const citySelect = document.querySelector("#city");
     stateSelect.addEventListener("change", function () {
         const stateId = this.value;
         console.log(`/api/get-cities/${stateId}/`);

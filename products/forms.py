@@ -4,7 +4,6 @@ from users.models import State
 
 # Choices Fields
 CATEGORY = (
-    ('', "Any"),
     (0, "Electronics"),
     (1, "Fashion and Apparel"),
     (2, "Home and Garden"),
@@ -15,14 +14,14 @@ CATEGORY = (
     (7, "Others")
 )
 STATUS = (
-    ('', "Any"), (0, "used"), (1, "new"), (2, "handmade")
+    (0, "used"), (1, "new"), (2, "handmade")
 )
 
 class ProductSearchForm(forms.Form):
     query = forms.CharField(required=False, label='Search')
-    category = forms.ChoiceField(choices=CATEGORY, required=False, label='Category')
-    status = forms.ChoiceField(choices=STATUS, required=False)
-    state = forms.ModelChoiceField(queryset=State.objects.all(), required=False, empty_label="Any State", label='State')
+    #category = forms.ChoiceField(choices=CATEGORY, required=False, label='Category')
+    #status = forms.ChoiceField(choices=STATUS, required=False)
+    #state = forms.ModelChoiceField(queryset=State.objects.all(), required=False, empty_label="Any State", label='State')
 
 class ProductForm(forms.ModelForm):
     class Meta:

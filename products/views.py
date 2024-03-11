@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Product, ProductImage, Wishlist
+from .models import Product, ProductImage, CATEGORY, STATUS, Wishlist
 from .forms import ProductForm, ProductSearchForm, ProductImageForm
 from users.models import Profile
 from messaging.models import Conversation, Message
@@ -46,28 +46,39 @@ class ProductList(generic.ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        # Start with all available or reserved products
         queryset = Product.objects.filter(Q(availability=0) | Q(availability=1))
-        query = self.request.GET.get('query', '')
-        category = self.request.GET.get('category', '')
-        seller = self.request.GET.get('seller', '')
-        state = self.request.GET.get('state', '')
-        status = self.request.GET.get('status', '')
+        query = self.request.GET.get('query', '').strip()
+        category_search = list(filter(lambda x: x[1].startswith(query), CATEGORY))
+        status_search = list(filter(lambda x: x[1].startswith(query), STATUS))
+        if len(category_search) > 0:
+            category_search = category_search[0][0]
+        else:
+            category_search = -1
+        if len(status_search) > 0:
+            status_search = status_search[0][0]
+        else:
+            status_search = -1
 
-        # Apply search filters
         if query:
             queryset = queryset.filter(
                 Q(title__icontains=query) |
                 Q(description__icontains=query) |
                 Q(seller__username__icontains=query) |
-                Q(city__icontains=query)
+                Q(category__in=[category_search]) |
+                Q(status__in=[status_search]) |
+                Q(city__icontains=query) |
+                Q(state__icontains=query)
             )
-        if category and category != '':
+
+        category = self.request.GET.get('category', '')
+        status = self.request.GET.get('status', '')
+
+        if category:
             queryset = queryset.filter(category=category)
-        if status and status != '':
+
+        if status:
             queryset = queryset.filter(status=status)
-        if state:
-            queryset = queryset.filter(state=state)
+
 
         # Sorting logic
         sort = self.request.GET.get('sort', 'date_desc')
