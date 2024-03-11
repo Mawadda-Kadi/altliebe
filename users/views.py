@@ -4,7 +4,9 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView, D
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -18,69 +20,60 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-# User Registration View
-#def register(request):
-   # if request.method == 'POST':
-       # form = UserRegisterForm(request.POST)
-       # if form.is_valid():
-      #      user = form.save()  # This returns the User object after saving
+#User Registration View
+class UserRegisterView(CreateView):
+    model = User
+    form_class = UserCreationForm
+    template_name = 'users/register.html'
+    success_url = reverse_lazy('home')
 
-            # Authenticate and login the user automatically after registration
-            #username = form.cleaned_data.get('username')
-            #password = form.cleaned_data.get('password1')
-            #user = authenticate(request, username=username, password=password)
-           # if user:
-          #      login(request, user)
+    def form_valid(self, form):
+        user = form.save()
 
-                # Update the profile with city and state names
-         #       profile = user.profile
-        #        city_instance = form.cleaned_data.get('city')
-       #         state_instance = form.cleaned_data.get('state')
-      #          profile.city = city_instance.name if city_instance else ''
-     #           profile.state = state_instance.name if state_instance else ''
-    #            profile.save()
+        # Authenticate and login the user automatically after registration
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password1')
+        user = authenticate(self.request, username=username, password=password)
+        if user:
+            login(self.request, user)
+            messages.success(self.request, f'Account created for {username}! You are now able to log in')
+            self.success_url = reverse_lazy('user-profile', kwargs={'username': username})
+        else:
+            messages.error(self.request, 'Account creation failed. Please try again.')
 
-   #             messages.success(request, f'Account created for {username}! You are now able to log in')
-  #              return redirect('user-profile', username=username)
-   #     else:
-            # If the form is invalid, render the form again with error messages
-  #          messages.error(request, 'Please correct the error below.')
-  #  else:
- #       form = UserRegisterForm()
- #   return render(request, 'users/register.html', {'form': form})
+        return super(UserRegisterView, self).form_valid(form)
+# def register(request):
+#     if request.method == 'POST':
+#         form = UserRegisterForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             # Process state and city
+#             state_id = request.POST.get('state')
+#             city_name = request.POST.get('city')
+#             try:
+#                 state = State.objects.get(id=state_id)
+#                 # Attempt to get the city based on the name and state
+#                 city, created = City.objects.get_or_create(name=city_name, state=state)
+#                 # Create or update the user's profile with the city
+#                 Profile.objects.update_or_create(user=user, defaults={'city': city})
+#             except State.DoesNotExist:
+#                 messages.error(request, 'Invalid state selected.')
+#                 return render(request, 'users/register.html', {'form': form})
+#             except City.DoesNotExist:
+#                 messages.error(request, 'Invalid city selected.')
+#                 return render(request, 'users/register.html', {'form': form})
 
-def register(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # Process state and city
-            state_id = request.POST.get('state')
-            city_name = request.POST.get('city')
-            try:
-                state = State.objects.get(id=state_id)
-                # Attempt to get the city based on the name and state
-                city, created = City.objects.get_or_create(name=city_name, state=state)
-                # Create or update the user's profile with the city
-                Profile.objects.update_or_create(user=user, defaults={'city': city})
-            except State.DoesNotExist:
-                messages.error(request, 'Invalid state selected.')
-                return render(request, 'users/register.html', {'form': form})
-            except City.DoesNotExist:
-                messages.error(request, 'Invalid city selected.')
-                return render(request, 'users/register.html', {'form': form})
-
-            # Authenticate and login the user
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(request, username=username, password=password)
-            if user:
-                login(request, user)
-                messages.success(request, f'Account created for {username}! You are now able to log in')
-                return redirect('user-profile', username=username)
-    else:
-        form = UserRegisterForm()
-    return render(request, 'users/signup.html', {'form': form})
+#             # Authenticate and login the user
+#             username = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password1')
+#             user = authenticate(request, username=username, password=password)
+#             if user:
+#                 login(request, user)
+#                 messages.success(request, f'Account created for {username}! You are now able to log in')
+#                 return redirect('user-profile', username=username)
+#     else:
+#         form = UserRegisterForm()
+#     return render(request, 'users/signup.html', {'form': form})
 
 
 # Custom Login View

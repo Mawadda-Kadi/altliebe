@@ -1,6 +1,5 @@
 from django import forms
 from .models import Product, ProductImage
-from users.models import State
 
 # Choices Fields
 CATEGORY = (
@@ -19,10 +18,7 @@ STATUS = (
 
 class ProductSearchForm(forms.Form):
     query = forms.CharField(required=False, label='Search')
-    #category = forms.ChoiceField(choices=CATEGORY, required=False, label='Category')
-    #status = forms.ChoiceField(choices=STATUS, required=False)
-    #state = forms.ModelChoiceField(queryset=State.objects.all(), required=False, empty_label="Any State", label='State')
-
+    
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product

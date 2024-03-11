@@ -7,21 +7,6 @@ from cloudinary.models import CloudinaryField
 
 
 # Create your models here.
-
-class State(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
-
-class City(models.Model):
-    state = models.ForeignKey(State, related_name='cities', on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     featured_image = CloudinaryField('image', default='users/static/images/profile-default-image.webp')
