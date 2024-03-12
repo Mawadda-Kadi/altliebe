@@ -172,7 +172,7 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 
             except IntegrityError:
                 # Handle error when a newly added product has the same title
-                messages.error(request, 'A product with this title already exists.')
+                messages.error(request, 'A product with this title already exists. Please choose a different one!')
                 return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
         return self.render_to_response(self.get_context_data(form=form, formset=formset))

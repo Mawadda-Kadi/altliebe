@@ -255,7 +255,7 @@ Lighthouse validation was run on all pages (both mobile and desktop) in order to
 The Website was tested on Google Chrome, Firefox, Safari browsers with no issues noted.
 
 ## Device Testing
-The website was viewed on a variety of devices such as Desktop, Laptop, iPhone 8, iPhoneXR and iPad to ensure responsiveness on various screen sizes in both portrait and landscape mode. The website performed as intended. The responsive design was also checked using Chrome developer tools across multiple devices with structural integrity holding for the various sizes.
+The website was viewed on a variety of devices such as Desktop, Laptop iPhone XR and iPad to ensure responsiveness on various screen sizes in both portrait and landscape mode. The website performed as intended. The responsive design was also checked using Chrome developer tools across multiple devices with structural integrity holding for the various sizes.
 
 # Mannual Testing:
 
@@ -408,6 +408,32 @@ The website was viewed on a variety of devices such as Desktop, Laptop, iPhone 8
 
 ## Fixed Bugs
 
+**Issue**: Carousel not displaying properly.
+
+### Fix
+1. Ensured the carousel's container had a defined width and height.
+2. Verified that the carousel's images or items were correctly referenced in the HTML.
+3. Checkd for JavaScript errors in the browser console that might be affecting the carousel functionality.
+4. Ensured Bootstrap and jQuery were correctly included and initialized in the project if using Bootstrap's carousel.
+
+**Issue**: Users encountered server errors when trying to add products with titles that already existed in the database.
+
+### Fix
+1. Implemented a check in the `ProductCreate` view to prevent duplicate product titles and handle the error gracefully.
+2. In cases where the title was found to be duplicated, an error message was generated and displayed to the user, indicating that the product title already existed and prompting them for a different title.
+
+**Issue**: Input Style Interference in Signup & Login Pages
+
+### Fix
+1. The CSS styling applied to `input` elements on the Signup and Login pages was interfering with the styling of the input element in the search form. This caused a uniform style across all input fields, leading to inconsistent and undesired visual effects on the website.
+2. To resolve the interference, the CSS was adjusted to target the input fields by their specific IDs rather than the generic `input` element selector. This change ensured that the styling for the input fields in the Signup and Login forms was applied only where necessary, without affecting the search form input.
 
 ## Unfixed bugs
 
+**Issue**: Mapping through Category & Status Tuples in Search
+
+### Description
+There was an issue with mapping through category and status tuples during the search process. The primary challenge was translating textual search queries into the corresponding integer values defined in the `Product` model's choice fields.
+
+### Trial
+Attempted to use query strings like "electronics" to filter products based on the `category` field, which is stored as an integer in the database. This required a mapping between the textual category names and their corresponding integer values.
