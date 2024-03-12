@@ -39,7 +39,7 @@ CLOUDINARY_STORAGE = {
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['8000-mawaddakadi-altliebe-7gxjljvjwda.ws-eu108.gitpod.io',
                 '.herokuapp.com']
