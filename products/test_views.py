@@ -50,7 +50,3 @@ class ProductCreateViewTest(TestCase):
             product = Product.objects.first()
             self.assertEqual(product.title, 'Test Product')
             self.assertEqual(product.seller, self.user)
-
-    # def tearDown(self):
-    #     # Log out the user
-    #     self.client.logout()
