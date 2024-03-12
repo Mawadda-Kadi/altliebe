@@ -1,0 +1,72 @@
+.product-container {
+    max-width: 1000px;
+    margin: auto;
+    margin-top: 5rem;
+}
+
+/* ------------------ Card Header Styling ---------------- */
+.card-header {
+    background-color: #007bff;
+}
+
+.card-header h2 {
+    margin: 0;
+}
+
+/* ---------------------- Form Styling -------------------- */
+.product-form .form-group {
+    margin-bottom: 20px;
+}
+
+/* ---------------- Preview Main Image Styling ---------------- */
+#featured_image_preview {
+    width: 280px;
+    height: 158px;
+    box-sizing: border-box;
+
+}
+
+#featured_image_preview img {
+    width: 280px;
+    height: auto;
+    max-height: 158px;
+}
+
+.card-img-top img {
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+/* ---------------- Preview Additional Images Styling ---------------- */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.additional-image {
+    margin-bottom: 15px;
+    flex: 0 0 30%;
+    margin-bottom: 15px;
+    padding-right: 15px;
+
+}
+
+.img-thumbnail {
+    max-width: 100px;
+    /* Hide until an image is selected */
+    display: none;
+}
+
+.image-preview img {
+    width: 100%;
+    height: auto;
+    max-height: 90px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* ---------------- Errors Styling ---------------- */
+.form-group .errorlist {
+    color: red;
+}

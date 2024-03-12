@@ -1,46 +1,73 @@
+/*--------------------- Title Styling --------------------*/
+.text-center {
+    margin-bottom: 30px;
+    /* Reduced margin for smaller devices */
+}
+
+/*--------------------- Gallery Styling--------------------*/
 .gallery-container {
-    padding: 30px;
+    padding: 15px;
+    /* Smaller padding for smaller screens */
+    width: 100%;
+    /* Full width for better responsiveness */
+    max-width: 100%;
+    /* Ensure it doesn't overflow the viewport */
+}
+
+.image-container {
+    padding: 5px;
+    /* Less padding for smaller devices */
+    border: 1px solid #ddd;
+    box-shadow: 5px 5px 15px #aaa;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 15px;
+    /* Add some space between the rows */
+}
+
+.image-container img {
+    width: 100%;
+    /* Make images responsive */
+    height: auto;
+    /* Maintain aspect ratio */
+    object-fit: cover;
 }
 
 .image-caption {
     background-color: #007bff;
     color: white;
-    padding: 10px;
     text-align: center;
+    padding: 5px 0;
+    /* Padding for caption */
 }
 
-.image-container {
-    margin-bottom: 15px;
+/* Hover effects only for non-touch devices */
+@media (hover: hover) {
+    .image-container:hover {
+        transform: translateY(-10px);
+        box-shadow: 10px 10px 20px #888;
+    }
 }
 
-.image-container img {
-    width: 100%;
-    height: auto;
+/* Adjustments for smaller screens */
+@media (max-width: 767px) {
+    .image-container {
+        flex: 0 0 50%;
+        /* Take half the width on small devices */
+        max-width: 50%;
+        /* Prevent any larger than half width */
+    }
+
+    /* Further reduce text size, margins, and padding on very small screens */
+    .text-center {
+        margin-bottom: 20px;
+    }
 }
 
-.image-container:hover {
-    /* Move up the container on hover */
-    transform: translateY(-10px);
-    /* Enhanced shadow on hover for more depth */
-    box-shadow: 10px 10px 20px #888;
-}
-
-
-.scale {
-    /* Responsive Images */
-    width: 100%;
-    height: auto;
-}
-
-/*--------------------- Filter Section --------------------*/
-.filter-section {
-    margin: 20px 0;
-}
-
-.filter-section input[type="checkbox"] {
-    margin-right: 5px;
-}
-
-.filter-section label {
-    margin-right: 10px;
+/* Adjustments for extra small screens */
+@media (max-width: 575px) {
+    .image-container {
+        flex: 0 0 100%;
+        /* Full width on extra small devices */
+        max-width: 100%;
+    }
 }

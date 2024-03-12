@@ -5,7 +5,7 @@ body {
     background-color: #f4f4f4;
 }
 
-header {
+.main-header {
     background: #333;
     color: #fff;
     padding-top: 30px;
@@ -15,6 +15,11 @@ header {
 
 .navbar-brand {
     color: #fff;
+}
+
+#search-input {
+    display: flex;
+    flex-flow: row nowrap;
 }
 
 main {
@@ -30,4 +35,8 @@ footer {
     bottom: 0;
     width: 100%;
     z-index: 1000;
+}
+
+.custom-icon {
+    font-size: 24px;
 }
