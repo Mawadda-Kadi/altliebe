@@ -27,9 +27,13 @@ header .btn {
 }
 
 /* Styling for profile image */
+.profile-image-container{
+    max-height: 250px;
+}
+
 img.img-fluid {
     max-width: 100%;
-    height: auto;
+    max-height: 250px;
     border-radius: 5px;
     margin-bottom: 15px;
 }

@@ -56,12 +56,12 @@
 
         <!-- Search Form -->
         <form class="search-form form-inline my-2 my-lg-0" method="get" action="{% url 'product-list' %}">
-            <!-- {% for field in product_search_form %} -->
+            {% for field in product_search_form %}
             <div id="search-input" class="form-group mx-2">
                 {{ field.label_tag }} {{ field }}
             </div>
-            <!-- {% endfor %} -->
-            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+            {% endfor %}
+            <button type="submit" value="submit form" class="btn btn-outline-success my-2 my-sm-0">Search</button>
         </form>
     </header>
 
