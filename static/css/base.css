@@ -17,6 +17,11 @@ body {
     color: #fff;
 }
 
+#search-input {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
 main {
     padding-bottom: 100px;
 }

@@ -35,7 +35,14 @@ body {
     margin-bottom: 25px;
 }
 
-input,
+#your_name,
+#your_pass,
+#username,
+#email,
+#password1,
+#password2,
+#signin,
+#signup,
 select,
 textarea {
     outline: none;
