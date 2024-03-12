@@ -260,33 +260,149 @@ The website was viewed on a variety of devices such as Desktop, Laptop, iPhone 8
 # Mannual Testing:
 
 ## Site Navigation
+| Element                | Action   | Expected Result               | Pass/Fail |
+|------------------------|----------|-------------------------------|-----------|
+| Site Name (logo area)  | Click    | Redirect to home              |    Pass   |
+| Home Link              | Click    | Redirect to home              |    Pass   |
+| Products Link          | Click    | Open Products Page            |    Pass   |
+| Login Link             | Click    | Open Login Form               |    Pass   |
+| Signup Link            | Click    | Open to Signup Form           |    Pass   |
+| Username Link          | Click    | Redirect to Profile Page      |    Pass   |
+| Logout Link            | Click    | Redirect to Logout Confirmation|   Pass   |
+| Search Bar             | Input    | Display search results        |    Pass   |
+|Social Media Links      | Click    | Open links in new Tabs        |    Pass   |
+---------------------------------------------------------------------------------
 
 ## Home Page
+| Element            | Action   | Expected Result                 | Pass/Fail   |
+|--------------------|----------|-------------------------------- |-------------|
+| Sort Option        | Select   | Sort products based on selection|    Pass     |
+---------------------------------------------------------------------------------
 
 ## Products Page
+| Element            | Action   | Expected Result                |  Pass/Fail   |
+|--------------------|----------|--------------------------------|--------      |
+| Product Item       | Click    | Redirect to Product Detail     |     Pass     |
+| Sort Option        | Select   | Sort products based on selection|  Pass       |
+| Seller Link        | Click    | Redirect to seller' profile    |     Pass     |
+| Pagination Options | Click    | Navigate to the selected Page  |   Pass       |
+---------------------------------------------------------------------------------
 
 ## Product Detail Page
+| Element                | Action                         | Expected Result                                 | Pass/Fail |
+|------------------------|--------------------------------|-------------------------------------------------|-----------|
+| Image Fields           | View Images                    | Up to 6 product images are uploaded and shown   |    Pass   |
+| Edit Product Link      | Click                          | Navigate to Product Edit Form                   |    Pass   |
+| Delete Product Button  | Click and confirm              | Product is deleted and removed from listings    |    Pass   |
+| Add to Wishlist Button | Click                          | Product is added to the user's wishlist         |    Pass   |
+| Participate in Conversation | Enter Message/Submit      | User can send messages in product conversation  |    Pass   |
+| Product Information    | View                           | Detailed view                                   |    Pass   |
+| Contact Seller         | Click                          | Open message form to contact seller             |    Pass   |
+| Write Review Link      | Click                          | Navigate to review section/form                 |    Pass   |
+-------------------------------------------------------------------------------------------------------------------------
+
 
 ## Signup Page
+| Element                 | Action                | Expected Result                                    | Pass/Fail |
+|-------------------------|-----------------------|----------------------------------------------------|-----------|
+| Signup Form             | Fill and submit       | New user account is created                        |    Pass   |
+| Username Field          | Input                 | Accepts new username                               |    Pass   |
+| Email Field             | Input                 | Accepts valid email address                        |    Pass   |
+| Password Field          | Input                 | Accepts password according to policy               |    Pass   |
+| Password Confirmation Field | Input             | Accepts password, must match with Password Field   |    Pass   |
+| Submit Button           | Click                 | Form is submitted, user is redirected to profile   |    Pass   |
+| Error Messages          | Display after submit  | Shows appropriate error messages for invalid inputs|    Pass   |
+--------------------------------------------------------------------------------------------------------------------
 
 ## Login Page
+| Element                 | Action                | Expected Result                                    | Pass/Fail |
+|-------------------------|-----------------------|----------------------------------------------------|-----------|
+| Login Form              | Fill and submit       | User is logged in                                  |    Pass   |
+| Username Field          | Input                 | Accepts existing username                          |    Pass   |
+| Password Field          | Input                 | Accepts correct password                           |    Pass   |
+| Submit Button           | Click                 | Form is submitted, user is redirected to Profile   |    Pass   |
+| Error Messages          | Display after submit  | Shows appropriate error messages for invalid inputs|    Pass   |
+--------------------------------------------------------------------------------------------------------------------
 
 ## Profile View Page
+| Element                 | Action                | Expected Result                                     | Pass/Fail |
+|-------------------------|-----------------------|-----------------------------------------------------|-----------|
+| Profile Information     | View                  | Display the current user's profile information      | Pass      |
+| Edit Profile Button     | Click                 | Navigate to the profile edit form                   | Pass      |
+| Logout Profile Button   | Click                 | Navigate to the profile edit form                   | Pass      |
+| Delete Account Button   | Click and Submit      | Account is deleted                                  | Pass      |
+| Profile Picture         | View                  | Display the current profile picture                 | Pass      |
+| Update Information Form | Submit                | Update and reflect the new information on the profile| Pass     |
+| Wishlist and Added products| View               | Display Wishlist and added products                 | Pass      |
+| Empty Wishlist Message  | View                  | Display a message if the wishlist is empty          | Pass      |
+| Empty Products Message  | View                  | Display a message if the My Products is empty       | Pass      |
+---------------------------------------------------------------------------------------------------------------------
+
 
 ## WishList Page
+| Element                 | Action                | Expected Result                                     | Pass/Fail |
+|-------------------------|-----------------------|-----------------------------------------------------|-----------|
+| Wishlist Items          | View                  | List all products added to the user's wishlist      | Pass      |
+| Remove Item Button      | Click                 | Remove the item from the wishlist                   | Pass      |
+| Product Link            | Click                 | Navigate to the product's detail page               | Pass      |
+| Empty Wishlist Message  | View                  | Display a message if the wishlist is empty          | Pass      |
+---------------------------------------------------------------------------------------------------------------------
+
 
 ## Edit Profile Page
+| Element                 | Action                | Expected Result                                     | Pass/Fail |
+|-------------------------|-----------------------|-----------------------------------------------------|-----------|
+| Email Field             | Edit and submit       | Updated email is saved and displayed                | Pass      |
+| About Me Field          | Edit and submit       | Updated about me is saved and displayed             | Pass      |
+| Profile Picture Upload  | Upload and submit     | Updated profile picture is saved and displayed      | Pass      |
+| Save Changes Button     | Click                 | Changes are saved and user receives confirmation    | Pass      |
+---------------------------------------------------------------------------------------------------------------------
+
 
 ## Add Product Page
+| Element                          | Action                | Expected Result                                      | Pass/Fail |
+|----------------------------------|-----------------------|------------------------------------------------------|-----------|
+| Title Field                      | Input                 | Accepts product title                                | Pass      |
+| Description Field                | Input                 | Accepts product description                          | Pass      |
+| Price Field                      | Input                 | Accepts product price                                | Pass      |
+| Main Image Field with Thumbnail  | Upload                | Uploads and displays a thumbnail of the main image   | Pass      |
+| Additional Image Fields with Thumbnails | Upload         | Uploads and displays thumbnails of additional images | Pass      |
+| Status Selection                 | Select                | Allows selection of product status                   | Pass      |
+| Availability Selection           | Select                | Allows selection of product availability             | Pass      |
+| Submit Button                    | Click                 | Form is submitted and product is added to listings   | Pass      |
+-------------------------------------------------------------------------------------------------------------------------------
 
 ## Edit Product Page
+| Element                          | Action                | Expected Result                                      | Pass/Fail |
+|----------------------------------|-----------------------|------------------------------------------------------|-----------|
+| Title Field                      | Edit                  | Updates product title                                | Pass      |
+| Description Field                | Edit                  | Updates product description                          | Pass      |
+| Price Field                      | Edit                  | Updates product price                                | Pass      |
+| Main Image Field with Thumbnail  | Change/Upload         | Updates and displays a new thumbnail of the main image | Pass    |
+| Additional Image Fields with Thumbnails | Change/Upload  |Updates and displays new thumbnails for additional images | Pass  |
+| Category Selection               | Change                | Updates the prcodut category                         | Pass      |
+| Status Selection                 | Change                | Updates the product status                           | Pass      |
+| Availability Selection           | Change                | Updates the product availability                     | Pass      |
+| Save Changes Button              | Click                 | Form is submitted and product updates are saved      | Pass      |
+-------------------------------------------------------------------------------------------------------------------------------
 
 ## Delete Product Page
+| Element                           | Action                      | Expected Result                                            | Pass/Fail |
+|-----------------------------------|-----------------------------|------------------------------------------------------------|-----------|
+| Delete Button                     | Click and confirm           | User account is permanently deleted from the system        | Pass      |
+--------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Logut Page
+| Element                           | Action                      | Expected Result                                            | Pass/Fail |
+|-----------------------------------|-----------------------------|------------------------------------------------------------|-----------|
+| Logout Option                     | Click                       | User is logged out                                         | Pass      |
+--------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Delete Account Page
-
+| Element                           | Action                      | Expected Result                                            | Pass/Fail |
+|-----------------------------------|-----------------------------|------------------------------------------------------------|-----------|
+| Delete Account Button             | Click and confirm           | User account is permanently deleted from the system        | Pass      |
+--------------------------------------------------------------------------------------------------------------------------------------------
 
 # Bugs
 
