@@ -49,17 +49,20 @@ def register(request):
 
 
 # Custom Login View
-
 class CustomLoginView(LoginView):
+    # Set custom authentication form for login view
     authentication_form = UserLoginForm
+    # Define template for login view
     template_name = 'users/login.html'
 
     def get_form_kwargs(self):
+        # Pass request object to form as a keyword argument
         kwargs = super().get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
     def form_invalid(self, form):
+        # Display form errors in case of invalid form submission
         errors = form.errors
         for field, field_errors in errors.items():
             for error in field_errors:
@@ -67,13 +70,18 @@ class CustomLoginView(LoginView):
         return super().form_invalid(form)
 
     def form_valid(self, form):
+        # Retrieve authenticated user if login form is valid
         user = form.get_user()
         if user:
+            # Log in user and display success message
             login(self.request, user)
             messages.success(self.request, f'Welcome back, {user.username}!')
+            # Redirect user to profile page
             return redirect('user-profile', username=user.username)
         else:
+            # Display error message for invalid username or password
             messages.error(self.request, 'Invalid username or password. Please try again.')
+            # Redirect user back to login page
             return redirect('login')
 
 # User Profile View

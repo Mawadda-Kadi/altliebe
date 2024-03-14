@@ -10,6 +10,7 @@ from cloudinary.models import CloudinaryField
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     featured_image = CloudinaryField('image', default='users/static/images/profile-default-image.webp')
+    email = models.EmailField(default='', null=True, blank=True)
     about_me = models.TextField(blank=True)
     city = models.CharField(max_length=50, blank=True, null=True)
     state = models.CharField(max_length=50, blank=True, null=True)
