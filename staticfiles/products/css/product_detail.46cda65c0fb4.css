@@ -1,0 +1,82 @@
+/*  ------------------- Carousel ------------------- */
+
+.carousel {
+    height: 100%;
+    margin-top: 50px;
+    border: 1px solid #ddd;
+    box-shadow: 5px 5px 15px #aaa;
+}
+
+.carousel-inner img {
+    object-fit: cover;
+    height: 400px;
+    width: 100%;
+}
+
+/* ------------------- carousel controls ------------------- */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #000;
+    border-radius: 50%;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    align-items: center;
+}
+
+/* ------------------- Product Details  ------------------- */
+.product-details {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    padding: 1rem;
+    height: 100%;
+    margin-top: 50px;
+    border: 1px solid #ddd;
+    box-shadow: 5px 5px 15px #aaa;
+    overflow-wrap: break-word;
+}
+
+.user-link a {
+    color: #333
+}
+
+/* ------------------- Conversation section ------------------- */
+.conversation-section {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    padding: 1rem;
+    margin-top: 2rem;
+    word-wrap: break-word;
+    border: 1px solid #ddd;
+    box-shadow: 5px 5px 15px #aaa;
+}
+
+.msg-list {
+    list-style: none;
+}
+
+
+
+/* ------------------- Buttons Stylyng ------------------- */
+.btn {
+    margin: 0.5rem 0.25rem;
+}
+
+button {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/*  ---- Responsive considerations on smaller screens  ------ */
+@media (max-width: 768px) {
+    .carousel-inner img {
+        height: auto;
+    }
+}

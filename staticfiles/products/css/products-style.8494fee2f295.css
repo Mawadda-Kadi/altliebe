@@ -1,0 +1,91 @@
+/* ------------------- Sorting Styling  ------------------- */
+.sorting-options {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.sorting-options a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.sorting-options a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* ------------------- Product Styling  ------------------- */
+.container {
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.container h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.container p {
+    margin: 5px 0;
+}
+
+
+/* ------------------- Image Styling  ------------------- */
+.image-container {
+    display: inline-block;
+    margin: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 5px 5px 15px #aaa;
+    /* Smooth transition for 3D effect and shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.image-container img {
+    display: block;
+    width: 250px;
+    height: 290px;
+    object-fit: cover;
+}
+
+.image-container:hover {
+    /* Move up the container on hover */
+    transform: translateY(-10px);
+    /* Enhanced shadow on hover for more depth */
+    box-shadow: 10px 10px 20px #888;
+}
+
+
+.scale {
+    /* Responsive Images */
+    width: 100%;
+    height: auto;
+}
+
+
+/* ------------------- Pagination Styling  ------------------- */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination .step-links {
+    display: inline-block;
+    padding: 0;
+}
+
+.pagination .step-links a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.pagination .step-links a:hover {
+    text-decoration: underline;
+}
+
+.pagination .current {
+    margin: 0 10px;
+}
+
