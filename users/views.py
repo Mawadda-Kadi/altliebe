@@ -6,12 +6,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Profile
-from .forms import UserRegisterForm, ProfileForm
+from .forms import UserRegisterForm, UserLoginForm, ProfileForm
 from products.models import Product, Wishlist
 import logging
 
@@ -37,20 +37,44 @@ def register(request):
             else:
                 messages.error(request, 'Account creation failed. Please try again.')
         else:
-            print(form.errors)  # For debugging
+            # Handle empty fields
+            errors = form.errors.as_data()
+            for field, field_errors in errors.items():
+                for error in field_errors:
+                    messages.error(request, f"{field}: {error}")
+            return redirect('register')
     else:
         form = UserRegisterForm()
     return render(request, 'users/signup.html', {'form': form})
 
 
 # Custom Login View
+
 class CustomLoginView(LoginView):
+    authentication_form = UserLoginForm
     template_name = 'users/login.html'
 
-    def get_success_url(self):
-        username = self.request.user.username
-        return reverse('user-profile', kwargs={'username': username})
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
+    def form_invalid(self, form):
+        errors = form.errors
+        for field, field_errors in errors.items():
+            for error in field_errors:
+                messages.error(self.request, f"{field}: {error}")
+        return super().form_invalid(form)
+
+    def form_valid(self, form):
+        user = form.get_user()
+        if user:
+            login(self.request, user)
+            messages.success(self.request, f'Welcome back, {user.username}!')
+            return redirect('user-profile', username=user.username)
+        else:
+            messages.error(self.request, 'Invalid username or password. Please try again.')
+            return redirect('login')
 
 # User Profile View
 @login_required
