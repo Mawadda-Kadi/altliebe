@@ -172,6 +172,9 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Use custom login URL as the default
+LOGIN_URL = 'login'
+
 # Logging Configuration
 LOGGING = {
     'version': 1,

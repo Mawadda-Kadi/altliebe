@@ -84,6 +84,13 @@ class CustomLoginView(LoginView):
             # Redirect user back to login page
             return redirect('login')
 
+    def get(self, request, *args, **kwargs):
+        # Check if the 'next' parameter is set and add an error message if the user is redirected from unauthorized access
+        next_url = request.GET.get('next')
+        if next_url:
+            messages.error(self.request, 'You need to log in to view profiles.')
+        return super().get(request, *args, **kwargs)
+
 # User Profile View
 @login_required
 def profile_view(request, username):
