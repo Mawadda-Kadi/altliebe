@@ -37,12 +37,7 @@
     <div class="row">
         <div class="profile-image-container col-lg-4 mb-3">
             <!-- Profile Image -->
-            {% if user.profile.featured_image %}
-            <img src="{{ user.profile.featured_image.url }}" class="img-fluid" alt="Profile Image">
-            {% else %}
-            <img src="{% static 'images/default-profile-image.webp' %}" class="img-fluid"
-                alt="Default Profile Image">
-            {% endif %}
+            <img src="{{ user.profile.featured_image.url }}" alt="Profile Image" class="profile-image img-fluid">
             <!-- User Information -->
             <div class="user-info bg-light p-3 rounded">
                 <p><strong>Email:</strong> {{ user.email }}</p>
@@ -105,11 +100,7 @@
 <div class="row">
     <div class="col-lg-4 mb-3">
         <!-- Seller Image -->
-        {% if profile_user.profile.featured_image %}
-        <img src="{{ profile_user.profile.featured_image.url }}" class="img-fluid" alt="Profile Image">
-        {% else %}
-        <img src="{% static 'images/default-profile-image.webp' %}" class="img-fluid" alt="Default Profile Image">
-        {% endif %}
+        <img src="{{ profile_user.profile.featured_image.url }}" alt="Profile Image" class="profile-image img-fluid">
         <!-- Seller Information -->
         <div class="user-info bg-light p-3 rounded">
             <p><strong>Email:</strong> {{ profile_user.email }}</p>

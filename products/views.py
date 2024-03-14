@@ -48,26 +48,24 @@ class ProductList(generic.ListView):
     def get_queryset(self):
         queryset = Product.objects.filter(Q(availability=0) | Q(availability=1))
         query = self.request.GET.get('query', '').strip()
+
+        # Using lambda to filter tuples for category and status search
         category_search = list(filter(lambda x: x[1].startswith(query), CATEGORY))
         status_search = list(filter(lambda x: x[1].startswith(query), STATUS))
-        if len(category_search) > 0:
-            category_search = category_search[0][0]
-        else:
-            category_search = -1
-        if len(status_search) > 0:
-            status_search = status_search[0][0]
-        else:
-            status_search = -1
+
+        # Extracting the first element (value) from the filtered tuples
+        category_search = category_search[0][0] if category_search else -1
+        status_search = status_search[0][0] if status_search else -1
 
         if query:
             queryset = queryset.filter(
                 Q(title__icontains=query) |
                 Q(description__icontains=query) |
                 Q(seller__username__icontains=query) |
-                Q(category__in=[category_search]) |
-                Q(status__in=[status_search]) |
                 Q(city__icontains=query) |
-                Q(state__icontains=query)
+                Q(state__icontains=query) |
+                Q(category__in=[category_search]) |
+                Q(status__in=[status_search])
             )
 
         category = self.request.GET.get('category', '')
