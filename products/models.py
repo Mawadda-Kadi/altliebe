@@ -30,14 +30,18 @@ STATUS = (
 )
 
 # Create your models here.
+
+
 class Product(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    featured_image = CloudinaryField('image', default='static/images/product-default-image.jpg')
+    featured_image = CloudinaryField(
+        'image', default='static/images/product-default-image.jpg')
     category = models.IntegerField(choices=CATEGORY, default=0)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="products")
+    seller = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="products")
     city = models.CharField(max_length=50, blank=True, null=True)
     state = models.CharField(max_length=50, blank=True, null=True)
     availability = models.IntegerField(choices=AVAILABILITY, default=0)
@@ -54,7 +58,8 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product, related_name='images', on_delete=models.CASCADE)
     image = CloudinaryField('image')
 
     def __str__(self):
@@ -62,8 +67,10 @@ class ProductImage(models.Model):
 
 
 class Wishlist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlist')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='wished_by')
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='wishlist')
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name='wished_by')
     added_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:

@@ -1,6 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
-from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView, View
+from django.views.generic import (
+    ListView,
+    CreateView,
+    UpdateView,
+    DetailView,
+    DeleteView,
+    View
+)
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -32,10 +39,13 @@ def register(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                messages.success(request, f'Account created for {username}! You are now able to log in')
+                messages.success(
+                    request,
+                    f'Account created for {username}! You are now able to log in')
                 return redirect('user-profile', username=username)
             else:
-                messages.error(request, 'Account creation failed. Please try again.')
+                messages.error(
+                    request, 'Account creation failed. Please try again.')
         else:
             # Handle empty fields
             errors = form.errors.as_data()
@@ -80,16 +90,21 @@ class CustomLoginView(LoginView):
             return redirect('user-profile', username=user.username)
         else:
             # Display error message for invalid username or password
-            messages.error(self.request, 'Invalid username or password. Please try again.')
+            messages.error(
+                self.request,
+                'Invalid username or password. Please try again.')
             # Redirect user back to login page
             return redirect('login')
 
     def get(self, request, *args, **kwargs):
-        # Check if the 'next' parameter is set and add an error message if the user is redirected from unauthorized access
+        """Check if the 'next' parameter is set and add an error message
+        if the user is redirected from unauthorized access """
         next_url = request.GET.get('next')
         if next_url:
-            messages.error(self.request, 'You need to log in to view profiles.')
+            messages.error(
+                self.request, 'You need to log in to view profiles.')
         return super().get(request, *args, **kwargs)
+
 
 # User Profile View
 @login_required
@@ -118,16 +133,20 @@ class ProfileUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'users/profile_edit.html'
 
     def get_success_url(self):
-        """ Redirect to the user's profile page after successful profile update """
-        return reverse_lazy('user-profile', kwargs={'username': self.request.user.username})
+        """ Redirect to the user's profile page
+        after successful profile update """
+        return reverse_lazy(
+            'user-profile', kwargs={'username': self.request.user.username})
 
     def get_object(self, queryset=None):
         """ Ensure that user can only edit their own profile """
         return self.request.user.profile
 
     def form_valid(self, form):
-        messages.success(self.request, 'Your profile was successfully updated.')
+        messages.success(
+            self.request, 'Your profile was successfully updated.')
         return super().form_valid(form)
+
 
 # Delete Account View
 class AccountDelete(LoginRequiredMixin, DeleteView):
@@ -146,5 +165,6 @@ class AccountDelete(LoginRequiredMixin, DeleteView):
         response = super().post(request, *args, **kwargs)
         # Log the user out
         logout(request)
-        messages.success(request, "Your account has been successfully deleted.")
+        messages.success(
+             request, "Your account has been successfully deleted.")
         return response

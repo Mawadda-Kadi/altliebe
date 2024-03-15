@@ -3,7 +3,13 @@ from django.db.models import Q
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic, View
-from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
+from django.views.generic import (
+    ListView,
+    CreateView,
+    UpdateView,
+    DetailView,
+    DeleteView
+)
 from django.urls import reverse_lazy, reverse
 from django.forms import inlineformset_factory
 from django.contrib.auth import get_user_model
@@ -20,6 +26,7 @@ import logging
 
 User = get_user_model()
 logger = logging.getLogger(__name__)
+
 
 def my_function():
     logger.debug('This is a debug message')
@@ -39,6 +46,8 @@ ProductImageFormSet = inlineformset_factory(
 # Create your views here.
 def index(request):
     return render(request, 'products/index.html')
+
+
 class ProductList(generic.ListView):
     model = Product
     template_name = "products/product_list.html"
@@ -46,11 +55,13 @@ class ProductList(generic.ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        queryset = Product.objects.filter(Q(availability=0) | Q(availability=1))
+        queryset = Product.objects.filter(
+            Q(availability=0) | Q(availability=1))
         query = self.request.GET.get('query', '').strip()
 
         # Using lambda to filter tuples for category and status search
-        category_search = list(filter(lambda x: x[1].startswith(query), CATEGORY))
+        category_search = list(
+             filter(lambda x: x[1].startswith(query), CATEGORY))
         status_search = list(filter(lambda x: x[1].startswith(query), STATUS))
 
         # Extracting the first element (value) from the filtered tuples
@@ -77,7 +88,6 @@ class ProductList(generic.ListView):
         if status:
             queryset = queryset.filter(status=status)
 
-
         # Sorting logic
         sort = self.request.GET.get('sort', 'date_desc')
         if sort == 'price_asc':
@@ -97,6 +107,7 @@ class ProductList(generic.ListView):
         context['form'] = ProductSearchForm(self.request.GET or None)
         return context
 
+
 class ProductDetail(DetailView):
     model = Product
     template_name = 'products/product_detail.html'
@@ -108,7 +119,8 @@ class ProductDetail(DetailView):
     def post(self, request, *args, **kwargs):
         # Get the product
         self.object = self.get_object()
-        conversation, _ = Conversation.objects.get_or_create(product=self.object)
+        conversation, _ = Conversation.objects.get_or_create(
+            product=self.object)
 
         message_text = request.POST.get('message')
         if message_text:
@@ -129,12 +141,13 @@ class ProductDetail(DetailView):
         context = super().get_context_data(**kwargs)
         product = self.get_object()
         context['product'] = product
-        conversations = Conversation.objects.filter(product=product).order_by('-created_at')
+        conversations = Conversation.objects.filter(
+             product=product).order_by('-created_at')
         context['conversations'] = conversations
         return context
 
 
-#Product Create View
+# Product Create View
 class ProductCreate(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
@@ -170,10 +183,14 @@ class ProductCreate(LoginRequiredMixin, CreateView):
 
             except IntegrityError:
                 # Handle error when a newly added product has the same title
-                messages.error(request, 'A product with this title already exists. Please choose a different one!')
-                return self.render_to_response(self.get_context_data(form=form, formset=formset))
+                messages.error(
+                    request,
+                    'A product with this title already exists. Please choose a different one!')
+                return self.render_to_response(
+                    self.get_context_data(form=form, formset=formset))
 
-        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+        return self.render_to_response(
+            self.get_context_data(form=form, formset=formset))
 
     def form_valid(self, form):
         """ This method is what sets self.object = form.save() """
@@ -182,10 +199,18 @@ class ProductCreate(LoginRequiredMixin, CreateView):
         return response
 
 
-
 class ProductUpdate(LoginRequiredMixin, UpdateView):
     model = Product
-    fields = ['title', 'featured_image', 'category', 'description', 'price', 'status', 'availability']
+    fields = [
+        'title',
+        'featured_image',
+        'category',
+        'description',
+        'price',
+        'status',
+        'availability'
+    ]
+
     template_name = 'products/product_form.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
@@ -194,7 +219,8 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['formset'] = ProductImageFormSet(self.request.POST, self.request.FILES, instance=self.object)
+            context['formset'] = ProductImageFormSet(
+                self.request.POST, self.request.FILES, instance=self.object)
         else:
             context['formset'] = ProductImageFormSet(instance=self.object)
         return context
@@ -229,21 +255,26 @@ class AddToWishlistView(LoginRequiredMixin, View):
 
         # Check if the product is owned by the user
         if product.seller == request.user:
-            messages.error(request, "You cannot add your own product to the wishlist.")
-            return HttpResponseRedirect(reverse('product-detail', kwargs={'slug': product.slug}))
+            messages.error(
+                request, "You cannot add your own product to the wishlist.")
+            return HttpResponseRedirect(reverse(
+                'product-detail', kwargs={'slug': product.slug}))
 
         # Proceed to add to wishlist if it's not the user's own product
         Wishlist.objects.get_or_create(user=request.user, product=product)
         messages.success(request, "Product added to your wishlist.")
-        return HttpResponseRedirect(reverse('product-detail', kwargs={'slug': product.slug}))
+        return HttpResponseRedirect(
+            reverse('product-detail', kwargs={'slug': product.slug}))
 
 
 @login_required
 def wishlist_view(request):
     # Get the wishlist items for the current user
-    wishlist_items = Wishlist.objects.filter(user=request.user).select_related('product')
+    wishlist_items = Wishlist.objects.filter(
+        user=request.user).select_related('product')
 
-    return render(request, 'products/wishlist.html', {'wishlist_items': wishlist_items})
+    return render
+    (request, 'products/wishlist.html', {'wishlist_items': wishlist_items})
 
 
 class RemoveFromWishlistView(LoginRequiredMixin, View):

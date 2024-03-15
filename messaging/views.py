@@ -8,6 +8,7 @@ from django.contrib import messages
 
 # Create your views here.
 
+
 class ConversationList(ListView):
     model = Conversation
     context_object_name = 'conversations'
@@ -15,6 +16,7 @@ class ConversationList(ListView):
 
     def get_queryset(self):
         return Conversation.objects.filter(participants=self.request.user)
+
 
 class ConversationDetail(DetailView):
     model = Conversation
@@ -51,6 +53,7 @@ class ConversationDetail(DetailView):
         # Ensure to render product title in templates
         context['product'] = conversation.product
         return context
+
 
 class StartConversationView(LoginRequiredMixin, View):
     def get(self, request, product_slug):

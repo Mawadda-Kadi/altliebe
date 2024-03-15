@@ -236,17 +236,48 @@ The automated testing suite for the Django web application methodically verifies
 
 # Validator Testing
 
-## HTML:
-All HTML pages were run through the W3C HTML Validator. See results in below table.
+## HTML and CSS:
+All HTML pages and CSS files were run through the W3C HTML Validator and the official W3C CSS Validator, respectively. "No Error Found" were the results.
 
-## CSS
-No errors were found when passing my CSS file through the official W3C CSS Validator
+### Home Page
+![home-html](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/c438e32e-dc8a-4978-b5a5-89c37665a094)
+
+![home-css](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/df536c54-2d67-4d8c-bda0-7abc2392a71c)
+
+### Products Page
+![products-html](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/58fb1ff8-03d9-4c35-9d33-b4f5484e3e4b)
+
+![products-css](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/813b5240-8407-4994-8af0-a471eb3ae96e)
+
+### Product Details Page
+![product-details-html](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/6f7784c5-47f7-480e-a2c0-97d857fc262a)
+
+![product-detail-css](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/a952dfe1-797e-4c48-bd4b-13ce40667840)
+
+### User Profile
+![profile-html](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/710be8f8-5df5-4a88-9820-b701e121c223)
+
+![profile-css](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/94f612f8-b298-4e13-a615-500d66c614b7)
+
+### Signup Page
+![signup-html](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/a3bbe690-5e69-40b6-b2cd-b58bba9f2832)
+
+![signup-css](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/6daf8baf-285f-437a-89f5-9be4919ed127)
+
+### Login Page
+![login-html](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/6ea0f89a-c569-41c9-ac8f-c40120f00f84)
+
+![login-css](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/0237fe13-d67a-41de-be83-152e1a054161)
+
+### Logout Page
+![login-html](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/6ea0f89a-c569-41c9-ac8f-c40120f00f84)
+
 
 ## JavaScript
 No errors were found when passing my javascript through Jshint
 
 ## Python
-All Python files were run through Pep8 with no errors found.
+All Python files were run through CI Python Linter with no errors found.
 
 ## Lighthouse
 Lighthouse validation was run on all pages (both mobile and desktop) in order to check accessibility and performance.

@@ -4,23 +4,28 @@ from django.contrib.auth.models import User
 from products.models import Product
 from .models import Conversation
 
+
 class ConversationListViewTest(TestCase):
 
     def setUp(self):
         # Create a user to be used as seller
-        self.seller = User.objects.create_user(username='seller', password='12345')
+        self.seller = User.objects.create_user(
+            username='seller', password='12345')
 
         # Create a product with the seller assigned
         self.product = Product.objects.create(
             title='Product',
             description='Description',
             price=10,
-            seller=self.seller  # Assign the created user as the seller
+            # Assign the created user as the seller
+            seller=self.seller
         )
 
         # Create users for conversation
-        self.user1 = User.objects.create_user(username='user1', password='12345')
-        self.user2 = User.objects.create_user(username='user2', password='12345')
+        self.user1 = User.objects.create_user(
+            username='user1', password='12345')
+        self.user2 = User.objects.create_user(
+            username='user2', password='12345')
 
         # Create conversations and assign them to users
         self.conversation1 = Conversation.objects.create(product=self.product)
@@ -29,12 +34,12 @@ class ConversationListViewTest(TestCase):
         self.conversation2.participants.add(self.user2)
 
 
-
 class ConversationDetailViewTest(TestCase):
 
     def setUp(self):
         # Create a user and set as seller
-        self.seller = User.objects.create_user(username='seller', password='12345')
+        self.seller = User.objects.create_user(
+            username='seller', password='12345')
         self.user = User.objects.create_user(username='user', password='12345')
 
         # Create a product and assign the created seller

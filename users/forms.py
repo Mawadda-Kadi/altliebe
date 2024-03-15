@@ -4,10 +4,12 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate
 from .models import Profile
 
+
 class UserRegisterForm(forms.ModelForm):
     email = forms.EmailField()
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput())
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput())
+    password2 = forms.CharField(
+        label='Confirm Password', widget=forms.PasswordInput())
 
     class Meta:
         model = User
@@ -27,10 +29,12 @@ class UserRegisterForm(forms.ModelForm):
             user.save()
         return user
 
+
 class UserLoginForm(AuthenticationForm):
     # Define form fields for username and password
     username = forms.CharField(label='Username')
-    password = forms.CharField(label='Password', widget=forms.PasswordInput())
+    password = forms.CharField(
+        label='Password', widget=forms.PasswordInput())
 
     class Meta:
         model = User
@@ -49,22 +53,22 @@ class UserLoginForm(AuthenticationForm):
         # Perform authentication if both username and password are provided
         if username and password:
             # Authenticate user
-            self.user_cache = authenticate(self.request, username=username, password=password)
+            self.user_cache = authenticate(
+                self.request, username=username, password=password)
             # Check if authentication failed or user account is inactive
             if self.user_cache is None:
-                raise forms.ValidationError('Invalid username or password. Please try again.')
+                raise forms.ValidationError(
+                    'Invalid username or password. Please try again.')
             elif not self.user_cache.is_active:
                 raise forms.ValidationError('This account is inactive.')
         return self.cleaned_data
-
 
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         # Editable fields
-        fields = ['featured_image', 'email', 'about_me', 'state', 'city' ]
+        fields = ['featured_image', 'email', 'about_me', 'state', 'city']
         widgets = {
             'about_me': forms.Textarea(attrs={'rows': 4}),
         }
-

@@ -6,17 +6,22 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings
 from .models import Product
 
+
 class ProductCreateViewTest(TestCase):
 
     def setUp(self):
         # Create a user for authentication
-        self.user = User.objects.create_user(username='testuser', password='12345')
+        self.user = User.objects.create_user(
+            username='testuser', password='12345')
         self.client.login(username='testuser', password='12345')
 
     def test_product_create_view(self):
         url = reverse('product-create')
-        with open('products/static/products/images/test_image.jpg', 'rb') as file:
-            image = SimpleUploadedFile(name='test_image.jpg', content=file.read(), content_type='image/jpeg')
+        with open(
+             'products/static/products/images/test_image.jpg', 'rb') as file:
+            image = SimpleUploadedFile(
+                 name='test_image.jpg', content=file.read(),
+                 content_type='image/jpeg')
             data = {
                 'title': 'Test Product',
                 'description': 'This is a test product.',
@@ -41,10 +46,11 @@ class ProductCreateViewTest(TestCase):
             if response.status_code != 302:
                 print(response.content)
 
-            # Check if the product was created and the page redirects to product list
-            self.assertRedirects(response, reverse('product-list'), status_code=302, target_status_code=200)
+            # Check if product was created and the page redirects to products
+            self.assertRedirects(
+                response, reverse('product-list'),
+                status_code=302, target_status_code=200)
             self.assertEqual(Product.objects.count(), 1)
-
 
             # Check the details of the created product
             product = Product.objects.first()
