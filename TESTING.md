@@ -316,7 +316,7 @@ Here are the desktop and mobile results, respectivily.
 
 
 ## Browser Testing
-The Website was tested on Google Chrome, Safari browsers with no issues noted.
+The Website was tested on Google Chrome browser with no issues noted.
 
 ## Device Testing
 The website was viewed on a variety of devices such as Desktop, Laptop iPhone XR and iPad to ensure responsiveness on various screen sizes in both portrait and landscape mode. The website performed as intended. The responsive design was also checked using Chrome developer tools across multiple devices with structural integrity holding for the various sizes.

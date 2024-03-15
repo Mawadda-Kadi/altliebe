@@ -1,16 +1,17 @@
 
 # AltLiebe
+![feat5](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/c1554a73-b425-46d2-b100-2ed927924e21)
 - AltLiebe is an online marketplace for vintage and second-hand goods where users can buy and sell items. The project aims to provide a sustainable shopping option by facilitating the reuse of goods.
 - "AltLiebe": Meaning "old love" in German, this name evokes the notion of finding new affection for previously owned items.
 - This name is designed to be catchy, meaningful, and reflective of the app's purpose and values, specifically tailored to a German-speaking audience interested in sustainability, recycling, and handmade goods.
 - "Where Memories Find New Homes." Slogan: Evokes a sense of nostalgia and the continuation of stories associated with the items.
+- Here is the Live Site [AltLiebe]()
 
 
 ## User Experience (UX)
 - **Strategy**: The goal is to create an intuitive platform for users looking to purchase or sell second-hand items, promoting sustainability.
 - **Scope**: Functional requirements include product listings, search functionality, user authentication, and participating in conversations.
 - **Structure**: Organized around a user-friendly navigation system to easily browse, add, edit, and manage products.
-- **Skeleton**: Wireframes and flowcharts were used to design the interface focusing on simplicity and usability.
 
 
 ## User Stories
@@ -125,11 +126,11 @@ so that I **can keep track of items I'm interested in buying later**.
 
 ## Agile Methodology
 - In the development of this project, Agile Methodology was followed, incorporating various practices such as User Story Board in GitHub, manual and automated testing, and Iterative Development.
-Data Model
 
 
 ## Testing
 view: TESTING.md
+/workspace/altliebe/TESTING.md
 
 
 ## Security Features and Defensive Design
@@ -166,6 +167,7 @@ Here's a brief overview of the main featuers of AltLiebe:
 - Conversation threads are displayed with all messages, allowing only authenticated users to track and manage their communications conveniently.
 
 ### Profile Management:
+![feat5](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/c1554a73-b425-46d2-b100-2ed927924e21)
 - Users have personalized profiles where they can view and edit their personal information, including email, location, and profile photo.
 - Registered users can access their wishlist, where they can add or remove items they are interested in buying later.
 

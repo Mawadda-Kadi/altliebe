@@ -263,8 +263,7 @@ class AddToWishlistView(LoginRequiredMixin, View):
         # Proceed to add to wishlist if it's not the user's own product
         Wishlist.objects.get_or_create(user=request.user, product=product)
         messages.success(request, "Product added to your wishlist.")
-        return HttpResponseRedirect(
-            reverse('product-detail', kwargs={'slug': product.slug}))
+        return HttpResponseRedirect(reverse('product-detail', kwargs={'slug': product.slug}))
 
 
 @login_required
@@ -273,8 +272,7 @@ def wishlist_view(request):
     wishlist_items = Wishlist.objects.filter(
         user=request.user).select_related('product')
 
-    return render
-    (request, 'products/wishlist.html', {'wishlist_items': wishlist_items})
+    return render(request, 'products/wishlist.html', {'wishlist_items': wishlist_items})
 
 
 class RemoveFromWishlistView(LoginRequiredMixin, View):

@@ -35,14 +35,11 @@
         </div>
     </div>
 
-    <!-- Profile Information -->
+    <!-- User Profile -->
     <div class="row">
         <div class="col-lg-4 mb-3">
-            <!-- Profile Image Container -->
-            <div class="profile-image-container">
-                <!-- Profile Image -->
-                <img src="{{ user.profile.featured_image.url }}" alt="Profile Image" class="profile-image img-fluid">
-            </div>
+            <!-- User Image -->
+            <img src="{{ user.profile.featured_image.url }}" alt="Profile Image" class="profile-image img-fluid">
             <!-- User Information -->
             <div class="user-info bg-light p-3 rounded">
                 <p><strong>Email:</strong> {{ user.email }}</p>
@@ -51,7 +48,7 @@
                     {{ user.profile.state|default:"" }}</p>
             </div>
         </div>
-        <div class="col-lg-8">
+        <div class="products-container col-lg-8">
             <!-- User's Products -->
             <div class="container mt-3">
                 <h3>My Products</h3>
@@ -59,7 +56,7 @@
                     {% for product in user.products.all %}
                     <div class="col-md-4 mb-3">
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body wishlist-body">
                                 <h5 class="card-title">
                                     <a href="{% url 'product-detail' product.slug %}">{{ product.title }}</a>
                                 </h5>
@@ -71,90 +68,93 @@
                     {% endfor %}
                 </div>
             </div>
-        </div>
-    </div>
+
             <!-- User's Wishlist -->
-            <h3 class="card-title wishlist-title"><a href="{% url 'wishlist-view' %}">My Wishlist</a></h3>
-            <div class="row wishlist-body">
-                {% for item in wishlist_items %}
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{% url 'product-detail' slug=item.product.slug %}">
-                                    {{ item.product.title }}</a></h5>
+            <div class="container wishlist-container mt-3">
+                <h3 class="card-title"><a href="{% url 'wishlist-view' %}">My Wishlist</a></h3>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        {% for item in wishlist_items %}
+                        <div class="card">
+                            <div class="card-body whishlist-body">
+                                <h5 class="card-title"><a href="{% url 'product-detail' slug=item.product.slug %}">
+                                        {{ item.product.title }}</a></h5>
+                            </div>
+                            {% empty %}
+                            <p>Your wishlist is empty.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Seller's Profile -->
+        <div class="row">
+            <div class="col-md-12">
+                <header class="profile-header d-flex justify-content-between align-items-center">
+                    <h1>{{ profile_user.username }}'s Profile</h1>
+                </header>
+            </div>
+        </div>
+
+        <!-- Seller's Profile Information -->
+        <div class="row">
+            <div class="col-lg-4 mb-3">
+                <!-- Seller Image -->
+                <img src="{{ profile_user.profile.featured_image.url }}" alt="Profile Image"
+                    class="profile-image img-fluid">
+                <!-- Seller Information -->
+                <div class="user-info bg-light p-3 rounded">
+                    <p><strong>Email:</strong> {{ profile_user.email }}</p>
+                    <p><strong>About Me:</strong> {{ profile_user.profile.about_me }}</p>
+                    <p><strong>Location:</strong> {{ profile_user.profile.city|default:"Not Set" }},
+                        {{ profile_user.profile.state|default:"" }}</p>
+                </div>
+            </div>
+            <div class="products-container col-lg-8">
+                <!-- Sellers's Products -->
+                <div class="container mt-3">
+                    <h3>{{ profile_user.username }}'s Products</h3>
+                    <div class="row">
+                        {% for product in profile_user.products.all %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <a href="{% url 'product-detail' product.slug %}">{{ product.title }}</a>
+                                    </h5>
+                                </div>
+                            </div>
                         </div>
                         {% empty %}
-                        <p>Your wishlist is empty.</p>
+                        <p>They have not added any products yet.</p>
+                        {% endfor %}
                     </div>
                 </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
-{% else %}
-<!-- Seller's Profile -->
-<div class="row">
-    <div class="col-md-12">
-        <header class="profile-header d-flex justify-content-between align-items-center">
-            <h1>{{ profile_user.username }}'s Profile</h1>
-        </header>
-    </div>
-</div>
 
-<!-- Seller's Profile Information -->
-<div class="row">
-    <div class="col-lg-4 mb-3">
-        <!-- Seller Image -->
-        <img src="{{ profile_user.profile.featured_image.url }}" alt="Profile Image" class="profile-image img-fluid">
-        <!-- Seller Information -->
-        <div class="user-info bg-light p-3 rounded">
-            <p><strong>Email:</strong> {{ profile_user.email }}</p>
-            <p><strong>About Me:</strong> {{ profile_user.profile.about_me }}</p>
-            <p><strong>Location:</strong> {{ profile_user.profile.city|default:"Not Set" }},
-                {{ profile_user.profile.state|default:"" }}</p>
-        </div>
-    </div>
-    <div class="products-container col-lg-8">
-        <!-- Sellers's Products -->
-        <div class="container mt-3">
-            <h3>{{ profile_user.username }}'s Products</h3>
-            <div class="row">
-                {% for product in profile_user.products.all %}
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="{% url 'product-detail' product.slug %}">{{ product.title }}</a>
-                            </h5>
+                <!-- seller's Wishlist -->
+                <div class="container wishlist-container mt-3">
+                    <h3 class="card-title wishlist-title">{{ profile_user.username }}'s Wishlist</h3>
+                    <div class="row wishlist-body">
+                        {% for item in profile_user.wishlist_items %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body wishlist-body">
+                                    <h5 class="card-title"><a
+                                            href="{% url 'product-detail' slug=item.product.slug %}">
+                                            {{ item.product.title }}</a></h5>
+                                </div>
+                                {% empty %}
+                                <p>This wishlist is empty.</p>
+                            </div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
-                {% empty %}
-                <p>They have not added any products yet.</p>
-                {% endfor %}
             </div>
         </div>
-
-        <!-- seller's Wishlist -->
-        <h3 class="card-title wishlist-title">{{ profile_user.username }}'s Wishlist</h3>
-        <div class="row wishlist-body">
-            {% for item in profile_user.wishlist_items %}
-            <div class="col-md-4 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="{% url 'product-detail' slug=item.product.slug %}">
-                                {{ item.product.title }}</a></h5>
-                    </div>
-                    {% empty %}
-                    <p>This wishlist is empty.</p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
-{% endif %}
+        {% endif %}
 
 
-{% endblock %}
+        {% endblock %}

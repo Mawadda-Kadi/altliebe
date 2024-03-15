@@ -27,7 +27,7 @@ header .btn {
 }
 
 /* Styling for profile image */
-.profile-image-container {
+.profile-image-container{
     max-height: 250px;
 }
 
@@ -42,15 +42,17 @@ img.img-fluid {
 
 .card {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    word-wrap: normal;
-    display: flex;
-    flex-direction: column;
 }
 
 .card-body {
     padding: 15px;
 }
 
+.wishlist-body {
+    word-wrap: normal;
+    display: flex;
+    flex-direction: row;
+}
 
 .card-title a {
     color: #333;
