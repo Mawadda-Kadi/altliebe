@@ -5,8 +5,8 @@
     <h2>Are you sure you want to delete "{{ object }}"?</h2>
     <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Yes, delete it</button>
-        <a href="{% url 'product-list' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" value="submit" class="btn btn-danger">Yes, delete it</button>
+        <a href="{% url 'product-list' %}" class="btn btn-secondary" aria-label="Cancel">Cancel</a>
     </form>
 </div>
 {% endblock %}

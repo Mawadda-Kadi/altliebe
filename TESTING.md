@@ -270,17 +270,34 @@ All HTML pages and CSS files were run through the W3C HTML Validator and the off
 ![login-css](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/0237fe13-d67a-41de-be83-152e1a054161)
 
 ### Logout Page
-![login-html](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/6ea0f89a-c569-41c9-ac8f-c40120f00f84)
+![logout-html](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/2f4be695-f7a9-44ac-b6af-8b2c94deb914)
 
 
 ## JavaScript
-No errors were found when passing my javascript through Jshint
+No errors were found when passing the javascript file through Jshint
+
+![image-thumbnails-js](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/847f903d-2899-49ad-b4ec-7b133a70c014)
+
 
 ## Python
 All Python files were run through CI Python Linter with no errors found.
 
 ## Lighthouse
 Lighthouse validation was run on all pages (both mobile and desktop) in order to check accessibility and performance.
+
+### Home Page
+
+### Products Page
+
+### Product Details Page
+
+### User Profile
+
+### Signup Page
+
+### Login Page
+
+### Logout Page
 
 ## Browser Testing
 The Website was tested on Google Chrome, Firefox, Safari browsers with no issues noted.
@@ -438,9 +455,9 @@ The website was viewed on a variety of devices such as Desktop, Laptop iPhone XR
 # Bugs
 
 ## Fixed Bugs
+Here are the main issues I have encountered:
 
 **Issue**: Carousel not displaying properly.
-
 ### Fix
 1. Ensured the carousel's container had a defined width and height.
 2. Verified that the carousel's images or items were correctly referenced in the HTML.
@@ -448,23 +465,27 @@ The website was viewed on a variety of devices such as Desktop, Laptop iPhone XR
 4. Ensured Bootstrap and jQuery were correctly included and initialized in the project if using Bootstrap's carousel.
 
 **Issue**: Users encountered server errors when trying to add products with titles that already existed in the database.
-
 ### Fix
 1. Implemented a check in the `ProductCreate` view to prevent duplicate product titles and handle the error gracefully.
 2. In cases where the title was found to be duplicated, an error message was generated and displayed to the user, indicating that the product title already existed and prompting them for a different title.
 
 **Issue**: Input Style Interference in Signup & Login Pages
-
 ### Fix
 1. The CSS styling applied to `input` elements on the Signup and Login pages was interfering with the styling of the input element in the search form. This caused a uniform style across all input fields, leading to inconsistent and undesired visual effects on the website.
 2. To resolve the interference, the CSS was adjusted to target the input fields by their specific IDs rather than the generic `input` element selector. This change ensured that the styling for the input fields in the Signup and Login forms was applied only where necessary, without affecting the search form input.
 
+**Issue**: Mapping through Category & Status Tuples in Search
+### Fix
+1. I've used lambda to filter the tuples CATEGORY and STATUS based on the query string.
+2. I extracted the first element (value) from the filtered tuples to use for filtering the queryset.
+3. If no matching category or status was found, I set default to -1.
+
+**Issue**: Unauthorized Access to User Profiles
+### Fix:
+1. Initially, the redirection to the default Django login URL was causing a 404 error. To address this, I set a custom login URL by defining `LOGIN_URL = 'login'` in the Django settings.
+2. I, then, extended the CustomLoginView class to handle unauthorized access more effectively by adding an error message when unauthorized users were redirected to the login page with the next parameter set
+
 ## Unfixed bugs
 
-**Issue**: Mapping through Category & Status Tuples in Search
-
-### Description
-There was an issue with mapping through category and status tuples during the search process. The primary challenge was translating textual search queries into the corresponding integer values defined in the `Product` model's choice fields.
-
-### Trial
-Attempted to use query strings like "electronics" to filter products based on the `category` field, which is stored as an integer in the database. This required a mapping between the textual category names and their corresponding integer values.
+**Issue**: Case Sensitivity in Search for Category and Status: To make the search case-insensitive, I tried to use the __icontains filter instead of startswith when filtering the category and status fields, but it did not work out will.
+**Issue**:Partial Matching in Search for Category and Status: To allow users to search with partial matches, I tried to modify the search logic to check if the query string was contained within the category or status names, but it does not work either.

@@ -6,7 +6,8 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn btn-primary" value="save">Save changes</button>
+        <a href="{% url 'user-profile' %}" class="btn btn-secondary" aria-label="cancel">Cancel</a>
     </form>
 </div>
 {% endblock %}

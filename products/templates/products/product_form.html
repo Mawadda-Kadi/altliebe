@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>{% if form.instance.pk %}Edit Product{% else %}Add New Product{% endif %}</h2>
+    <h2>Edit Product</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
@@ -14,8 +14,8 @@
             {{ form.as_p }}
             {% endfor %}
         </fieldset>
-        <button type="submit" class="btn btn-primary">
-            {% if form.instance.pk%}Update{% else %}Submit{% endif %}</button>
+        <button type="submit" class="btn btn-primary" value="update">Update</button>
+        <a href="{% url 'product-list' %}" class="btn btn-secondary" aria-label="cancel">Cancel</a>
     </form>
 </div>
 {% endblock %}
