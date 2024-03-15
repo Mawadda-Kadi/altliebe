@@ -1,6 +1,6 @@
 
 # AltLiebe
-![feat5](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/c1554a73-b425-46d2-b100-2ed927924e21)
+![feat6](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/21501f0d-5685-41d5-aea9-296877e1dea1)
 - AltLiebe is an online marketplace for vintage and second-hand goods where users can buy and sell items. The project aims to provide a sustainable shopping option by facilitating the reuse of goods.
 - "AltLiebe": Meaning "old love" in German, this name evokes the notion of finding new affection for previously owned items.
 - This name is designed to be catchy, meaningful, and reflective of the app's purpose and values, specifically tailored to a German-speaking audience interested in sustainability, recycling, and handmade goods.
