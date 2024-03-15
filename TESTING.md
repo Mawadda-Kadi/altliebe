@@ -284,23 +284,39 @@ All Python files were run through CI Python Linter with no errors found.
 
 ## Lighthouse
 Lighthouse validation was run on all pages (both mobile and desktop) in order to check accessibility and performance.
+Here are the desktop and mobile results, respectivily.
 
 ### Home Page
+![home-desktop](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/8a351832-13b4-4ff8-be97-0347d8cfb28d)
+![home-mobile](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/5aa1780e-74fa-4b8b-af30-73c21756603a)
 
 ### Products Page
+![products-desktop](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/82f8faa5-9526-424a-96e1-6baa05f8162b)
+![products-mobile](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/8f966ea5-f638-4910-8729-b8759503aa6c)
 
 ### Product Details Page
+![product-details-desktop](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/60d9a412-6c14-45cd-96ae-41d9141d0d48)
+![product-details-mobile](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/5d0c6463-ca19-434d-bcaa-8e33725d3bd6)
 
 ### User Profile
+![profile-desktop](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/7b98d5f6-3ca2-48af-a01d-92730e2f9916)
+![profile-mobile](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/8885289c-896b-42b7-a40b-ac6645b78ec6)
 
 ### Signup Page
+![signup-desktop](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/bff26179-a892-4eb0-8d35-0d0a7c6933e6)
+![signup-mobile](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/dbb6b82e-cf33-4cf8-a0f0-f6d8439875ba)
 
 ### Login Page
+![login-desktop](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/9afba1ed-2ed5-40f2-9a82-645db300eaba)
+![login-mobile](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/1bc1407c-1544-4144-a4d5-ddadfd2d98b8)
 
 ### Logout Page
+![logout-desktop](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/b5935bfd-edbe-42c2-a9c2-41bc864d0575)
+![logout-mobile](https://github.com/Mawadda-Kadi/altliebe/assets/151715427/e4368527-ab3a-4b60-bfea-2ed7f8419137)
+
 
 ## Browser Testing
-The Website was tested on Google Chrome, Firefox, Safari browsers with no issues noted.
+The Website was tested on Google Chrome, Safari browsers with no issues noted.
 
 ## Device Testing
 The website was viewed on a variety of devices such as Desktop, Laptop iPhone XR and iPad to ensure responsiveness on various screen sizes in both portrait and landscape mode. The website performed as intended. The responsive design was also checked using Chrome developer tools across multiple devices with structural integrity holding for the various sizes.
@@ -485,7 +501,20 @@ Here are the main issues I have encountered:
 1. Initially, the redirection to the default Django login URL was causing a 404 error. To address this, I set a custom login URL by defining `LOGIN_URL = 'login'` in the Django settings.
 2. I, then, extended the CustomLoginView class to handle unauthorized access more effectively by adding an error message when unauthorized users were redirected to the login page with the next parameter set
 
+**Issue**: During user registration, submitting the form with empty fields did not provide clear error messages to the user, leading to confusion.
+### Fix:
+1. Implemented custom form validation in the `UserRegisterForm` class to handle empty fields.
+2. Modified the form's clean method to check for empty fields and raise appropriate validation errors.
+3. Ensured that users receive clear error messages when attempting to register with empty fields, improving the overall user experience.
+
+**Issue**: Invalid Form Fields in Custom Login:
+When implementing a custom login view in Django using a subclass of LoginView, there was an issue with properly handling invalid form fields. Upon form submission with invalid data, the error messages were not displayed correctly to the user.
+### Fix:
+1. In the CustomLoginView class, the form_invalid method was overridden to iterate through the form errors and display them using Django's message framework. This ensured that error messages for individual fields were properly shown to the user.
+2. In the UserLoginForm class, an __init__ method was added to initialize the request attribute from the form's keyword arguments. This allowed access to the request object within the form, which was necessary for authentication.
+3. The clean method in the `UserLoginForm` class was utilized to perform additional validation on the form data, such as checking for invalid usernames or passwords. Any validation errors raised during this process were handled gracefully and presented to the user.
+
 ## Unfixed bugs
 
-**Issue**: Case Sensitivity in Search for Category and Status: To make the search case-insensitive, I tried to use the __icontains filter instead of startswith when filtering the category and status fields, but it did not work out will.
+**Issue**: Case Sensitivity in Search for Category and Status: To make the search case-insensitive, I tried to use the `__icontains` filter instead of startswith when filtering the category and status fields, but it did not work out will.
 **Issue**:Partial Matching in Search for Category and Status: To allow users to search with partial matches, I tried to modify the search logic to check if the query string was contained within the category or status names, but it does not work either.
