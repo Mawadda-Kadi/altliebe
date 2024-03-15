@@ -14,6 +14,10 @@
     /* Ensure it doesn't overflow the viewport */
 }
 
+#last-row {
+    justify-content: center;
+}
+
 .image-container {
     padding: 5px;
     /* Less padding for smaller devices */
@@ -30,6 +34,7 @@
     height: auto;
     /* Maintain aspect ratio */
     object-fit: cover;
+    padding: 10px;
 }
 
 .image-caption {

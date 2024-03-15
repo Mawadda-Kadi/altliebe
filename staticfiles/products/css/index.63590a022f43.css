@@ -12,10 +12,15 @@
     /* Full width for better responsiveness */
     max-width: 100%;
     /* Ensure it doesn't overflow the viewport */
+    white-space: 20px;
 }
 
-#last-row {
+div#last-row.row {
     justify-content: center;
+}
+
+div {
+    margin: 30px;
 }
 
 .image-container {
@@ -26,6 +31,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 15px;
     /* Add some space between the rows */
+    margin: 30px;
 }
 
 .image-container img {

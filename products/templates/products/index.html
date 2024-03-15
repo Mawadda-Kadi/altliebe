@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block content %}
-
 <!-- Alert Section -->
 {% if messages %}
 {% for message in messages %}
@@ -20,63 +19,67 @@
 {% endfor %}
 {% endif %}
 
-<!-- Gallary Container -->
-<div class="container gallery-container">
+<!-- Gallery Container -->
+<div class="container custom-container gallery-container">
     <h1 class="text-center">AltLiebe</h1>
     <div class="row">
         <!-- Image container -->
-        <div class="col-md-3 image-container">
+        <div class="col-md-4 image-container">
             <a href="{% url 'product-list' %}?category=0">
                 <img src="{% static 'products/images/electronics.jpg' %}" alt="Electronics image">
                 <div class="image-caption">Electronics</div>
             </a>
         </div>
-        <div class="col-md-3 image-container">
+        <div class="col-md-4 image-container">
             <a href="{% url 'product-list' %}?category=1">
                 <img src="{% static 'products/images/fashion.jpg' %}" alt="Fashion image">
                 <div class="image-caption">Fashion and Apparel</div>
             </a>
         </div>
-        <div class="col-md-3 image-container">
+        <div class="col-md-4 image-container">
             <a href="{% url 'product-list' %}?category=2">
                 <img src="{% static 'products/images/home&garden.jpg' %}" alt="Home image">
                 <div class="image-caption">Home and Garden</div>
-            </a>
-        </div>
-        <div class="col-md-3 image-container">
-            <a href="{% url 'product-list' %}?category=3">
-                <img src="{% static 'products/images/sports&outdoors.jpg' %}" alt="Sport-gears image">
-                <div class="image-caption">Sports and Outdoors</div>
             </a>
         </div>
     </div>
 
     <!-- Second row of images -->
     <div class="row">
-        <div class="col-md-3 image-container">
+        <div class="col-md-4 image-container">
+            <a href="{% url 'product-list' %}?category=3">
+                <img src="{% static 'products/images/sports&outdoors.jpg' %}" alt="Sport-gears image">
+                <div class="image-caption">Sports and Outdoors</div>
+            </a>
+        </div>
+        <div class="col-md-4 image-container">
             <a href="{% url 'product-list' %}?category=4">
                 <img src="{% static 'products/images/toys&games.jpg' %}" alt="Toys image">
                 <div class="image-caption">Toys and Games</div>
             </a>
         </div>
-        <div class="col-md-3 image-container">
+        <div class="col-md-4 image-container">
             <a href="{% url 'product-list' %}?category=5">
                 <img src="{% static 'products/images/books.jpg' %}" alt="Books image">
                 <div class="image-caption">Books and Media</div>
             </a>
         </div>
-        <div class="col-md-3 image-container">
-            <a href="{% url 'product-list' %}?category=6">
-                <img src="{% static 'products/images/pet-supplies.jpg' %}" alt="Pet Supplies image">
-                <div class="image-caption">Pet Supplies</div>
-            </a>
-        </div>
-        <div class="col-md-3 image-container">
-            <a href="{% url 'product-list' %}?category=7">
-                <img src="{% static 'products/images/others.png' %}" alt="Other products image">
-                <div class="image-caption">Others</div>
-            </a>
-        </div>
     </div>
+
+    <!-- Third row of images with last two cards centered -->
+<div class="row" id="last-row">
+    <div class="col-md-4 col-md-offset-2 col-md-push-4 image-container">
+        <a href="{% url 'product-list' %}?category=6">
+            <img src="{% static 'products/images/pet-supplies.jpg' %}" alt="Pet Supplies image">
+            <div class="image-caption">Pet Supplies</div>
+        </a>
+    </div>
+    <div class="col-md-4 image-container">
+        <a href="{% url 'product-list' %}?category=7">
+            <img src="{% static 'products/images/others.png' %}" alt="Other products image">
+            <div class="image-caption">Others</div>
+        </a>
+    </div>
+</div>
 </div>
 {% endblock %}
