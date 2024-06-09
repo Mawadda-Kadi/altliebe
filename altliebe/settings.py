@@ -34,9 +34,9 @@ CLOUDINARY_STORAGE = {
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['8000-mawaddakadi-altliebe-7gxjljvjwda.ws-eu110.gitpod.io',
+ALLOWED_HOSTS = ['8000-mawaddakadi-altliebe-wkd6x182vfe.ws-eu114.gitpod.io',
                  '.herokuapp.com']
 
 
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'altliebe',
     'cloudinary_storage',
     'cloudinary',
     'products',

@@ -15,11 +15,21 @@ body {
 
 .navbar-brand {
     color: #fff;
+    font-size: 28px;
+}
+
+.nav-link {
+    color: #333;
+}
+
+.navbar-text {
+    font-size: larger;
 }
 
 #search-input {
     display: flex;
     flex-flow: row nowrap;
+    font-size: 16px;
 }
 
 main {

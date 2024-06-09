@@ -41,8 +41,8 @@
     background-color: #007bff;
     color: white;
     text-align: center;
-    padding: 5px 0;
-    /* Padding for caption */
+    padding: 15px 0;
+    font-size: 24px;
 }
 
 /* Hover effects only for non-touch devices */

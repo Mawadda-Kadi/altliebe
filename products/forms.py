@@ -17,8 +17,12 @@ STATUS = (
 )
 
 class ProductSearchForm(forms.Form):
-    query = forms.CharField(required=False, label='Search')
-    
+    query = forms.CharField(
+        required=False,
+        label='',
+        widget=forms.TextInput(attrs={'placeholder': 'What Are You Looking For'})
+    )
+
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
